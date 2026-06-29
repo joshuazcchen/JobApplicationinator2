@@ -1,0 +1,383 @@
+{
+	"keywords": [
+		{
+			"id": 1,
+			"name": "Python",
+			"triggers": ["python", "py"],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about Python</p>"
+				}
+			]
+		},
+		{
+			"id": 2,
+			"name": "JavaScript",
+			"triggers": ["javascript", "js", "es6", "ecmascript"],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about JavaScript</p>"
+				}
+			]
+		},
+		{
+			"id": 3,
+			"name": "TypeScript",
+			"triggers": ["typescript", "ts"],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about TypeScript</p>"
+				}
+			]
+		},
+		{
+			"id": 4,
+			"name": "Java",
+			"triggers": ["java"],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about Java</p>"
+				}
+			]
+		},
+		{
+			"id": 5,
+			"name": "C++",
+			"triggers": ["c\\+\\+", "cpp", "c plus plus"],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about C++</p>"
+				}
+			]
+		},
+		{
+			"id": 6,
+			"name": "C#",
+			"triggers": ["c#", "csharp", "dotnet", ".net"],
+			"blurbs": []
+		},
+		{
+			"id": 7,
+			"name": "Go",
+			"triggers": ["golang", "go lang"],
+			"blurbs": []
+		},
+		{
+			"id": 8,
+			"name": "Rust",
+			"triggers": ["rust", "rustlang"],
+			"blurbs": []
+		},
+		{
+			"id": 9,
+			"name": "Swift",
+			"triggers": ["swift"],
+			"blurbs": []
+		},
+		{
+			"id": 10,
+			"name": "Kotlin",
+			"triggers": ["kotlin"],
+			"blurbs": []
+		},
+		{
+			"id": 11,
+			"name": "Ruby",
+			"triggers": ["ruby"],
+			"blurbs": []
+		},
+		{
+			"id": 12,
+			"name": "React",
+			"triggers": ["react", "reactjs", "react.js"],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about React</p>"
+				}
+			]
+		},
+		{
+			"id": 13,
+			"name": "Vue",
+			"triggers": ["vue", "vuejs", "vue.js"],
+			"blurbs": []
+		},
+		{
+			"id": 14,
+			"name": "Angular",
+			"triggers": ["angular", "angularjs"],
+			"blurbs": []
+		},
+		{
+			"id": 15,
+			"name": "Node.js",
+			"triggers": ["node.js", "nodejs", "node js"],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about Node.js</p>"
+				}
+			]
+		},
+		{
+			"id": 16,
+			"name": "Next.js",
+			"triggers": ["next.js", "nextjs"],
+			"blurbs": []
+		},
+		{
+			"id": 17,
+			"name": "Django",
+			"triggers": ["django"],
+			"blurbs": []
+		},
+		{
+			"id": 18,
+			"name": "Flask",
+			"triggers": ["flask"],
+			"blurbs": []
+		},
+		{
+			"id": 19,
+			"name": "FastAPI",
+			"triggers": ["fastapi", "fast api"],
+			"blurbs": []
+		},
+		{
+			"id": 20,
+			"name": "REST API",
+			"triggers": ["rest api", "restful", "rest", "api design", "http api"],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about REST API</p>"
+				}
+			]
+		},
+		{
+			"id": 21,
+			"name": "GraphQL",
+			"triggers": ["graphql", "graph ql"],
+			"blurbs": []
+		},
+		{
+			"id": 22,
+			"name": "Microservices",
+			"triggers": [
+				"microservices",
+				"microservice",
+				"distributed systems",
+				"service-oriented"
+			],
+			"blurbs": []
+		},
+		{
+			"id": 23,
+			"name": "CI/CD",
+			"triggers": [
+				"ci/cd",
+				"cicd",
+				"continuous integration",
+				"continuous deployment",
+				"continuous delivery",
+				"devops",
+				"github actions",
+				"jenkins",
+				"gitlab ci"
+			],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about CI/CD</p>"
+				}
+			]
+		},
+		{
+			"id": 24,
+			"name": "Docker",
+			"triggers": [
+				"docker",
+				"dockerfile",
+				"docker-compose",
+				"containerization",
+				"containers"
+			],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about Docker</p>"
+				}
+			]
+		},
+		{
+			"id": 25,
+			"name": "Kubernetes",
+			"triggers": ["kubernetes", "k8s", "kubectl", "helm", "pod orchestration"],
+			"blurbs": []
+		},
+		{
+			"id": 26,
+			"name": "AWS",
+			"triggers": ["aws", "amazon web services", "ec2", "s3", "lambda", "ecs", "eks"],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about AWS</p>"
+				}
+			]
+		},
+		{
+			"id": 27,
+			"name": "GCP",
+			"triggers": ["gcp", "google cloud", "google cloud platform", "bigquery", "cloud run"],
+			"blurbs": []
+		},
+		{
+			"id": 28,
+			"name": "Azure",
+			"triggers": ["azure", "microsoft azure", "azure devops"],
+			"blurbs": []
+		},
+		{
+			"id": 29,
+			"name": "PostgreSQL",
+			"triggers": ["postgresql", "postgres", "psql"],
+			"blurbs": []
+		},
+		{
+			"id": 30,
+			"name": "MongoDB",
+			"triggers": ["mongodb", "mongo"],
+			"blurbs": []
+		},
+		{
+			"id": 31,
+			"name": "Redis",
+			"triggers": ["redis", "caching", "in-memory cache"],
+			"blurbs": []
+		},
+		{
+			"id": 32,
+			"name": "Git",
+			"triggers": [
+				"git",
+				"github",
+				"gitlab",
+				"bitbucket",
+				"version control",
+				"source control"
+			],
+			"blurbs": []
+		},
+		{
+			"id": 33,
+			"name": "Linux",
+			"triggers": ["linux", "unix", "bash", "shell scripting", "command line"],
+			"blurbs": []
+		},
+		{
+			"id": 34,
+			"name": "Agile / Scrum",
+			"triggers": ["agile", "scrum", "sprint", "kanban", "jira", "standup", "retrospective"],
+			"blurbs": []
+		},
+		{
+			"id": 35,
+			"name": "Unit Testing",
+			"triggers": [
+				"unit test",
+				"unit testing",
+				"tdd",
+				"test-driven",
+				"jest",
+				"pytest",
+				"junit",
+				"mocha",
+				"testing",
+				"automated tests"
+			],
+			"blurbs": [
+				{
+					"label": "Default",
+					"is_default": true,
+					"content_html": "<p>example paragraph about Unit Testing</p>"
+				}
+			]
+		},
+		{
+			"id": 36,
+			"name": "Code Review",
+			"triggers": ["code review", "pull request", "peer review", "pr review"],
+			"blurbs": []
+		},
+		{
+			"id": 37,
+			"name": "System Design",
+			"triggers": [
+				"system design",
+				"architecture",
+				"scalability",
+				"high availability",
+				"distributed"
+			],
+			"blurbs": []
+		},
+		{
+			"id": 38,
+			"name": "Machine Learning",
+			"triggers": [
+				"machine learning",
+				"ml",
+				"deep learning",
+				"neural network",
+				"ai",
+				"tensorflow",
+				"pytorch",
+				"sklearn",
+				"scikit-learn"
+			],
+			"blurbs": []
+		},
+		{
+			"id": 39,
+			"name": "SQL",
+			"triggers": [
+				"sql",
+				"database queries",
+				"query optimization",
+				"relational database",
+				"orm"
+			],
+			"blurbs": []
+		},
+		{
+			"id": 40,
+			"name": "Cross-functional",
+			"triggers": [
+				"cross-functional",
+				"cross functional",
+				"stakeholder",
+				"collaboration",
+				"cross-team"
+			],
+			"blurbs": []
+		}
+	]
+}

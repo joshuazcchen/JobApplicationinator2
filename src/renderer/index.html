@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
+		/>
+		<title>JobApplicationinator v2</title>
+		<link rel="stylesheet" href="./styles.css" />
+	</head>
+	<body>
+		<div class="app">
+			<header class="app-header">
+				<span class="app-title">Applicationinator</span>
+				<span class="app-version">v2</span>
+			</header>
+
+			<main class="app-body">
+				<section class="scan-section">
+					<div class="scan-controls">
+						<div class="control-group">
+							<label for="method-select">Source</label>
+							<select id="method-select">
+								<option value="safari">Safari</option>
+								<option value="cdp">Chrome / Edge / Brave</option>
+								<option value="clipboard">Clipboard paste</option>
+							</select>
+						</div>
+						<button id="scan-btn" class="btn btn-primary">Scan Active Tab</button>
+					</div>
+
+					<div class="log-wrapper">
+						<div class="log-label">Scan Log</div>
+						<pre id="log-panel" class="log-panel"></pre>
+					</div>
+				</section>
+
+				<section id="results-section" class="results-section" style="display: none">
+					<div class="results-grid">
+						<div class="panel">
+							<h2>Keyword Matches</h2>
+							<div id="matches-container" class="matches-container"></div>
+						</div>
+
+						<div class="panel">
+							<h2>Assembled Letter <span class="hint">(plain text preview)</span></h2>
+							<textarea
+								id="letter-output"
+								class="letter-output"
+								readonly
+								placeholder="The assembled cover letter will appear here when it is done."
+							></textarea>
+							<div class="save-row">
+								<button id="save-html-btn" class="btn btn-secondary">
+									Save as HTML
+								</button>
+								<button id="save-txt-btn" class="btn btn-secondary">
+									Save as TXT
+								</button>
+								<button id="save-pdf-btn" class="btn btn-secondary" disabled>
+									Save as PDF
+								</button>
+							</div>
+						</div>
+					</div>
+				</section>
+			</main>
+
+			<footer class="app-footer">
+				<div id="status-bar" class="status-bar status-idle">Ready</div>
+			</footer>
+		</div>
+
+		<script src="./renderer.js"></script>
+	</body>
+</html>

@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<style>
+			body {
+				font-family: 'Comic Sans MS', 'Comic Sans', serif;
+				font-size: 11pt;
+				line-height: 1.65;
+				max-width: 680px;
+				margin: 48px auto;
+				color: #1a1a1a;
+			}
+			p {
+				margin: 0 0 12px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<p>{{date}}</p>
+
+		<p>Dear {{hiring_manager}},</p>
+
+		<p>
+			I am writing to express my interest in <strong>{{role_title}}</strong> role at
+			<strong>{{company_name}}</strong>.
+		</p>
+
+		{{blurbs}}
+
+		<p>Thank you for your time and consideration.</p>
+
+		<p>
+			Sincerely,<br />
+			{{user_name}}
+		</p>
+	</body>
+</html>
