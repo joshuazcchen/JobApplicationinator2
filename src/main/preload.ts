@@ -37,4 +37,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
 		updateNotes: (id: number, notes: string) => ipcRenderer.invoke("app:updateNotes", id, notes),
 		saveCoverLetter: (id: number, html: string) => ipcRenderer.invoke("app:saveCoverLetter", id, html),
 	},
+
+	importFile: {
+		docx: () => ipcRenderer.invoke('import:docx'),
+		pdf: () => ipcRenderer.invoke('import:pdf'),
+	},
 });

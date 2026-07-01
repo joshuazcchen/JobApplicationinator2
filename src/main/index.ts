@@ -1,37 +1,38 @@
-import { app, BrowserWindow } from "electron";
-import * as path from "path";
-import * as fs from "fs";
-import { initDatabase, getDatabase } from "./db/schema";
-import { registerScraperIPC } from "./ipc/scraper";
-import { registerFileIPC } from "./ipc/file";
-import { registerDatabaseIPC } from "./ipc/database";
-import { seedKeywords } from "./db/keywords";
-import { seedTemplates } from "./db/templates";
+import { app, BrowserWindow } from 'electron';
+import * as path from 'path';
+import * as fs from 'fs';
+import { initDatabase, getDatabase } from './db/schema';
+import { registerScraperIPC } from './ipc/scraper';
+import { registerFileIPC } from './ipc/file';
+import { registerDatabaseIPC } from './ipc/database';
+import { registerImporterIPC } from './ipc/importer';
+import { seedKeywords } from './db/keywords';
+import { seedTemplates } from './db/templates';
 
 let mainWindow: BrowserWindow | null = null;
 
 function assetPath(...parts: string[]): string {
 	if (app.isPackaged) {
-		return path.join(process.resourcesPath, "assets", ...parts);
+		return path.join(process.resourcesPath, 'assets', ...parts);
 	}
-	return path.join(__dirname, "..", "..", "assets", ...parts);
+	return path.join(__dirname, '..', '..', 'assets', ...parts);
 }
 
 function seedDatabase(): void {
 	const db = getDatabase();
 
 	try {
-		const raw = fs.readFileSync(assetPath("default-keywords.json"), "utf8");
+		const raw = fs.readFileSync(assetPath('default-keywords.json'), 'utf8');
 		seedKeywords(db, JSON.parse(raw));
 	} catch (e) {
-		console.error("seed error:", e);
+		console.error('seed error:', e);
 	}
 
 	try {
-		const html = fs.readFileSync(assetPath("default-template.html"), "utf8");
+		const html = fs.readFileSync(assetPath('default-template.html'), 'utf8');
 		seedTemplates(db, html);
 	} catch (e) {
-		console.error("seed error:", e);
+		console.error('seed error:', e);
 	}
 }
 
@@ -41,19 +42,19 @@ function createWindow(): void {
 		height: 800,
 		minWidth: 800,
 		minHeight: 600,
-		title: "JobApplicationinator v2",
+		title: 'JobApplicationinator v2',
 		webPreferences: {
-			preload: path.join(__dirname, "preload.js"),
+			preload: path.join(__dirname, 'preload.js'),
 			contextIsolation: true,
-			nodeIntegration: false,
-		},
+			nodeIntegration: false
+		}
 	});
 
-	mainWindow.loadFile(path.join(__dirname, "..", "renderer", "index.html"));
+	mainWindow.loadFile(path.join(__dirname, '..', 'renderer', 'index.html'));
 
 	mainWindow.webContents.openDevTools();
 
-	mainWindow.on("closed", () => {
+	mainWindow.on('closed', () => {
 		mainWindow = null;
 	});
 }
@@ -65,13 +66,16 @@ app.whenReady().then(() => {
 	registerDatabaseIPC();
 
 	createWindow();
-	if (mainWindow) registerScraperIPC(mainWindow);
+	if (mainWindow) {
+		registerScraperIPC(mainWindow);
+		registerImporterIPC(mainWindow);
+	}
 
-	app.on("activate", () => {
+	app.on('activate', () => {
 		if (BrowserWindow.getAllWindows().length === 0) createWindow();
 	});
 });
 
-app.on("window-all-closed", () => {
-	if (process.platform !== "darwin") app.quit();
+app.on('window-all-closed', () => {
+	if (process.platform !== 'darwin') app.quit();
 });

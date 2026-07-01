@@ -60,6 +60,11 @@
 							<h2>Cover Letter</h2>
 
 							<div class="editor-toolbar">
+								<div class="editor-mode-tabs">
+									<button class="mode-tab active" data-mode="visual">Visual</button>
+									<button class="mode-tab" data-mode="text">Text / HTML</button>
+									<button class="mode-tab" data-mode="preview">Preview</button>
+								</div>
 								<button id="btn-bold" class="tb-btn" title="Bold"><b>B</b></button>
 								<button id="btn-italic" class="tb-btn" title="Italic">
 									<i>I</i>
@@ -77,20 +82,26 @@
 								</select>
 								<!-- TODO: could replace this with an actual proper system more akin to docs or
 			something.-->
-								<select id="size-select" class="tb-select" title="Size">
-									<option value="2">Small</option>
-									<option value="3" selected>Normal</option>
-									<option value="4">Large</option>
-									<option value="6">XLarge</option>
-								</select>
-								<span class="tb-sep"></span>
-								<button id="btn-marker" class="tb-btn" title="Insert marker at cursor">Marker</button>
-								<span class="tb-sep"></span>
-								<button id="btn-undo" class="tb-btn" title="Undo">Undo</button>
-								<button id="btn-redo" class="tb-btn" title="Redo">Redo</button>
+			<select id="size-select" class="tb-select" title="Size">
+				<option value="2">Small</option>
+				<option value="3" selected>Normal</option>
+				<option value="4">Large</option>
+				<option value="6">XLarge</option>
+			</select>
+			<span class="tb-sep"></span>
+			<button id="btn-marker" class="tb-btn" title="Insert marker at cursor">Marker</button>
+			<span class="tb-sep"></span>
+			<button id="btn-undo" class="tb-btn" title="Undo">Undo</button>
+			<button id="btn-redo" class="tb-btn" title="Redo">Redo</button>
+			<span class="tb-sep"></span>
+			<!-- TODO: make it just be one import button with the capability of handling either -->
+			<button id="btn-import-docx" class="tb-btn" title="Import DOCX">Import DOCX</button>
+<button id="btn-import-pdf" class="tb-btn" title="Import PDF">Import PDF</button>
 							</div>
 
 							<div id="letter-editor" class="letter-editor"></div>
+							<button id="btn-import-docx" class="tb-btn" title="Import DOCX">Import DocX</button>
+              <button id="btn-import-pdf" class="tb-btn" title="Import PDF">Import PDF</button>
 
 							<div class="save-row">
 								<button id="save-edits-btn" class="btn btn-primary">Save Edits</button>
@@ -129,9 +140,9 @@
 
 							<div class="tpl-upload">
 								<label for="tpl-upload-input" class="btn btn-primary tpl-upload-label"
-									>Upload Template</label
-								>
-								<input id="tpl-upload-input" type="file" accept=".html,.htm" style="display: none" />
+									  >Upload Template</label
+								  >
+								  <input id="tpl-upload-input" type="file" accept=".html,.htm" style="display: none" />
 							</div>
 						</div>
 
