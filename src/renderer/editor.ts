@@ -1,4 +1,4 @@
-const Editor = (() => {
+export const Editor = (() => {
 	let root: HTMLElement;
 	let undoStack: string[] = [];
 	let redoStack: string[] = [];

@@ -1,3 +1,9 @@
+import { Editor } from './editor.js';
+import { Sidebar } from './sidebar.js';
+import { KeywordsUI } from './keywords-ui.js';
+import { TemplatesUI } from './templates-ui.js';
+import type { ScanMethod, MatchDTO } from './types.js';
+
 const scanBtn = document.getElementById('scan-btn') as HTMLButtonElement;
 const methodSelect = document.getElementById('method-select') as HTMLSelectElement;
 const logPanel = document.getElementById('log-panel') as HTMLPreElement;
@@ -12,7 +18,7 @@ const navButtons = document.querySelectorAll<HTMLButtonElement>('.nav-btn');
 const views = document.querySelectorAll<HTMLElement>('.view');
 
 let currentApplicationId: number | null = null;
-let lastMatches: ScanResult['matches'] = [];
+let lastMatches: MatchDTO[] = [];
 
 function showView(name: string): void {
 	views.forEach(v => (v.style.display = v.dataset.view === name ? 'flex' : 'none'));
@@ -70,10 +76,10 @@ newScanBtn.addEventListener('click', () => {
 	Sidebar.refresh();
 });
 
-function renderMatches(matches: ScanResult['matches']): void {
+function renderMatches(matches: MatchDTO[]): void {
 	lastMatches = matches;
 
-	if (!matches || matches.length === 0) {
+	if (matches.length === 0) {
 		matchesContainer.innerHTML = '<p class="no-matches">No keyword matches found.</p>';
 		return;
 	}
@@ -82,7 +88,7 @@ function renderMatches(matches: ScanResult['matches']): void {
 
 	matchesContainer.innerHTML = matches
 	.slice(0, 25)
-	.map((m, i) => {
+	.map((m: MatchDTO, i: number) => {
 		const pct = Math.round((m.count / maxCount) * 100);
 		const cls = m.hasBlurb ? 'has-blurb' : 'no-blurb';
 		const action = m.hasBlurb
@@ -100,8 +106,7 @@ function renderMatches(matches: ScanResult['matches']): void {
 
 	matchesContainer.querySelectorAll<HTMLButtonElement>('.btn-insert').forEach(btn => {
 		btn.addEventListener('click', () => {
-			const idx = Number(btn.dataset.idx);
-			const blurb = lastMatches?.[idx]?.blurbHtml;
+			const blurb = lastMatches?.[Number(btn.dataset.idx)]?.blurbHtml;
 			if (blurb) Editor.insertBlurbAtMarker(blurb);
 		});
 	});
@@ -123,11 +128,11 @@ scanBtn.addEventListener('click', async () => {
 	scanBtn.disabled = true;
 	setStatus('Scanning…', 'running');
 
-	electronAPI.clearLogListeners();
-	electronAPI.onLog(appendLog);
+	window.electronAPI.clearLogListeners();
+	window.electronAPI.onLog(appendLog);
 
 	try {
-		const result = await electronAPI.scan(method);
+		const result = await window.electronAPI.scan(method);
 
 		if (!result.success) {
 			setStatus(`Error: ${result.error ?? 'Unknown error'}`, 'error');
@@ -152,7 +157,7 @@ scanBtn.addEventListener('click', async () => {
 });
 
 async function openApplication(id: number): Promise<void> {
-	const app = await electronAPI.applications.get(id);
+	const app = await window.electronAPI.applications.get(id);
 	if (!app) return;
 
 	currentApplicationId = app.id;
@@ -179,7 +184,7 @@ async function handleSave(format: 'html' | 'txt'): Promise<void> {
 		setStatus('Nothing to save, scan first.', 'error');
 		return;
 	}
-	const result = await electronAPI.saveOutput(html, format);
+	const result = await window.electronAPI.saveOutput(html, format);
 	if (result.success) setStatus(`Saved to ${result.filePath}`, 'success');
 	else if (!result.cancelled) setStatus(`Save failed: ${result.error}`, 'error');
 }
@@ -192,7 +197,7 @@ saveEditsBtn.addEventListener('click', async () => {
 		setStatus('Run a scan first, nothing to save.', 'error');
 		return;
 	}
-	await electronAPI.applications.saveCoverLetter(currentApplicationId, Editor.getHTML());
+	await window.electronAPI.applications.saveCoverLetter(currentApplicationId, Editor.getHTML());
 	setStatus('Edits saved to database.', 'success');
 });
 
