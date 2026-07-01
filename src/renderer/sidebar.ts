@@ -1,4 +1,4 @@
-const Sidebar = (() => {
+export const Sidebar = (() => {
 	let listEl: HTMLElement;
 	let onSelect: (id: number) => void = () => {};
 
@@ -17,7 +17,7 @@ const Sidebar = (() => {
 	};
 
 	async function refresh(activeId?: number): Promise<void> {
-		const apps = await electronAPI.applications.list();
+		const apps = await window.electronAPI.applications.list();
 
 		if (apps.length === 0) {
 			listEl.innerHTML = '<div class="sidebar-empty">No scans yet.</div>';

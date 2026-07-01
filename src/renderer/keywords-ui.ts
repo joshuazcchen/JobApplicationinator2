@@ -1,5 +1,6 @@
-/// <reference path="./types.d.ts" />
-const KeywordsUI = (() => {
+import type { KeywordDTO, BlurbDTO } from './types.js';
+
+export const KeywordsUI = (() => {
 	let listEl: HTMLElement;
 	let detailEl: HTMLElement;
 	let newNameInput: HTMLInputElement;
@@ -19,7 +20,7 @@ const KeywordsUI = (() => {
 			const name = newNameInput.value.trim();
 			const triggers = newTriggersInput.value.split(',').map(t => t.trim()).filter(Boolean);
 			if (!name || triggers.length === 0) return;
-			const id = await electronAPI.keywords.create(name, triggers);
+			const id = await window.electronAPI.keywords.create(name, triggers);
 			newNameInput.value = '';
 			newTriggersInput.value = '';
 			await refresh(id);
@@ -27,7 +28,7 @@ const KeywordsUI = (() => {
 	}
 
 	async function refresh(selectAfter?: number): Promise<void> {
-		keywords = await electronAPI.keywords.list();
+		keywords = await window.electronAPI.keywords.list();
 		renderList();
 		if (selectAfter) {
 			selectedId = selectAfter;
@@ -80,7 +81,7 @@ const KeywordsUI = (() => {
 		<div id="kw-blurb-list" class="kw-blurb-list">
 		${kw.blurbs
 			.map(
-				b => `
+				(b: BlurbDTO) => `
 				<div class="blurb-card" data-blurb-id="${b.id}">
 				<div class="blurb-card-header">
 				<input class="blurb-label" value="${esc(b.label)}">
@@ -107,7 +108,7 @@ const KeywordsUI = (() => {
 
 			document.getElementById('kw-delete-btn')!.addEventListener('click', async () => {
 				if (!confirm(`Delete "${kw.name}" and all its blurbs?`)) return;
-				await electronAPI.keywords.delete(kw.id);
+				await window.electronAPI.keywords.delete(kw.id);
 				selectedId = null;
 				await refresh();
 			});
@@ -118,7 +119,7 @@ const KeywordsUI = (() => {
 				.split(',')
 				.map(t => t.trim())
 				.filter(Boolean);
-				await electronAPI.keywords.update(kw.id, name, triggers);
+				await window.electronAPI.keywords.update(kw.id, name, triggers);
 				await refresh();
 			});
 
@@ -128,17 +129,17 @@ const KeywordsUI = (() => {
 				card.querySelector('.blurb-save-btn')!.addEventListener('click', async () => {
 					const label = (card.querySelector('.blurb-label') as HTMLInputElement).value.trim();
 					const content = (card.querySelector('.blurb-content') as HTMLTextAreaElement).value;
-					await electronAPI.keywords.updateBlurb(blurbId, label, content);
+					await window.electronAPI.keywords.updateBlurb(blurbId, label, content);
 					await refresh();
 				});
 
 				card.querySelector('.blurb-delete-btn')!.addEventListener('click', async () => {
-					await electronAPI.keywords.deleteBlurb(blurbId);
+					await window.electronAPI.keywords.deleteBlurb(blurbId);
 					await refresh();
 				});
 
 				card.querySelector('.blurb-default-radio')!.addEventListener('change', async () => {
-					await electronAPI.keywords.setDefaultBlurb(kw.id, blurbId);
+					await window.electronAPI.keywords.setDefaultBlurb(kw.id, blurbId);
 					await refresh();
 				});
 			});
@@ -148,7 +149,7 @@ const KeywordsUI = (() => {
 				const content = (document.getElementById('kw-new-blurb-content') as HTMLTextAreaElement).value.trim();
 				if (!content) return;
 				const isFirst = kw.blurbs.length === 0;
-				await electronAPI.keywords.addBlurb(kw.id, label, content, isFirst);
+				await window.electronAPI.keywords.addBlurb(kw.id, label, content, isFirst);
 				await refresh();
 			});
 	}

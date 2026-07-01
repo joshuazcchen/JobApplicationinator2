@@ -1,5 +1,6 @@
-/// <reference path="./types.d.ts" />
-const TemplatesUI = (() => {
+import type { TemplateDTO } from './types.ts';
+
+export const TemplatesUI = (() => {
   let listEl: HTMLElement;
   let previewEl: HTMLIFrameElement;
   let uploadInput: HTMLInputElement;
@@ -16,14 +17,14 @@ const TemplatesUI = (() => {
       if (!file) return;
       const text = await file.text();
       const name = file.name.replace(/\.html?$/i, '');
-      const id = await electronAPI.templates.create(name, text);
+      const id = await window.electronAPI.templates.create(name, text);
       uploadInput.value = '';
       await refresh(id);
     });
   }
 
   async function refresh(selectAfter?: number): Promise<void> {
-    templates = await electronAPI.templates.list();
+    templates = await window.electronAPI.templates.list();
     if (selectAfter) selectedId = selectAfter;
     if (!selectedId && templates.length > 0) selectedId = templates[0].id;
     renderList();
@@ -62,7 +63,7 @@ const TemplatesUI = (() => {
 
     listEl.querySelectorAll<HTMLButtonElement>('.tpl-set-default-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
-        await electronAPI.templates.setDefault(Number(btn.dataset.id));
+        await window.electronAPI.templates.setDefault(Number(btn.dataset.id));
         await refresh(Number(btn.dataset.id));
       });
     });
@@ -70,7 +71,7 @@ const TemplatesUI = (() => {
     listEl.querySelectorAll<HTMLButtonElement>('.tpl-delete-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
         if (!confirm('Delete this template?')) return;
-        await electronAPI.templates.delete(Number(btn.dataset.id));
+        await window.electronAPI.templates.delete(Number(btn.dataset.id));
         selectedId = null;
         await refresh();
       });
