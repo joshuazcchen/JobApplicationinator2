@@ -24,6 +24,16 @@ export const Editor = (() => {
 		]
 	});"></script>`;
 
+	function stripDocument(html: string): string {
+		const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+		const inner = bodyMatch ? bodyMatch[1] : html;
+		return inner
+		.replace(/<style[\s\S]*?<\/style>/gi, '')
+		.replace(/<script[\s\S]*?<\/script>/gi, '')
+		.replace(/<\/?(html|head|body)[^>]*>/gi, '')
+		.trim();
+	}
+
 	function init(elementId: string): void {
 		root = document.getElementById(elementId) as HTMLElement;
 		textArea = document.getElementById(textAreaId) as HTMLTextAreaElement;
@@ -96,7 +106,8 @@ export const Editor = (() => {
 		root.focus();
 		const marker = root.querySelector('.insertion-marker');
 		const wrapper = document.createElement('div');
-		wrapper.innerHTML = html;
+		// See comment under setHTML
+		wrapper.innerHTML = stripDocument(html);
 		const newMarker =
 			'<span class="insertion-marker" contenteditable="false">insert here</span>';
 
@@ -122,20 +133,24 @@ export const Editor = (() => {
 	}
 
 	function setHTML(html: string): void {
-		root.innerHTML = html;
-		textArea.value = html;
+		// Pretty sure the reason why the UI was breaking was because it'd try to render the full base template which
+		// had HTML elements of its own, this should now strip it clean.
+		const clean = stripDocument(html)
+		root.innerHTML = clean;
+		textArea.value = clean;
 		undoStack = [];
 		redoStack = [];
 		pushSnapshot(true);
 	}
 
 	function insertAtExp(html: string): void {
+		const clean = stripDocument(html);
 		if (mode === 'text') {
 			const start = textArea.selectionStart;
 			const end = textArea.selectionEnd;
-			textArea.value = textArea.value.slice(0, start) + html + textArea.value.slice(end);
+			textArea.value = textArea.value.slice(0, start) + clean + textArea.value.slice(end);
 		} else {
-			insertBlurbAtMarker(html);
+			insertBlurbAtMarker(clean);
 		}
 	}
 
