@@ -1,4 +1,4 @@
-import Database from "better-sqlite3";
+import Database from 'better-sqlite3';
 
 export interface ApplicationSummary {
 	id: number;
@@ -25,60 +25,70 @@ export function createApplication(
 		hiring_manager?: string | null;
 		job_url?: string | null;
 		raw_html?: string | null;
-	},
+	}
 ): number {
 	const { lastInsertRowid } = db
 		.prepare(
 			`INSERT INTO applications (company_name, role_title, hiring_manager, job_url, raw_html)
-		VALUES (?, ?, ?, ?, ?)`,
+		VALUES (?, ?, ?, ?, ?)`
 		)
 		.run(
 			data.company_name ?? null,
 			data.role_title ?? null,
 			data.hiring_manager ?? null,
 			data.job_url ?? null,
-			data.raw_html ?? null,
+			data.raw_html ?? null
 		);
 	return Number(lastInsertRowid);
 }
 
-export function saveCoverLetter(db: Database.Database, applicationId: number, contentHtml: string): void {
-	const existing = db.prepare("SELECT id FROM cover_letters WHERE application_id = ?").get(applicationId) as
-		{ id: number } | undefined;
+export function saveCoverLetter(
+	db: Database.Database,
+	applicationId: number,
+	contentHtml: string
+): void {
+	const existing = db
+		.prepare('SELECT id FROM cover_letters WHERE application_id = ?')
+		.get(applicationId) as { id: number } | undefined;
 
 	if (existing) {
-		db.prepare("UPDATE cover_letters SET content = ?, last_edited = CURRENT_TIMESTAMP WHERE id = ?").run(
-			contentHtml,
-			existing.id,
-		);
+		db.prepare(
+			'UPDATE cover_letters SET content = ?, last_edited = CURRENT_TIMESTAMP WHERE id = ?'
+		).run(contentHtml, existing.id);
 	} else {
-		db.prepare("INSERT INTO cover_letters (application_id, content) VALUES (?, ?)").run(applicationId, contentHtml);
+		db.prepare('INSERT INTO cover_letters (application_id, content) VALUES (?, ?)').run(
+			applicationId,
+			contentHtml
+		);
 	}
 }
 
 export function saveKeywordMatches(
 	db: Database.Database,
 	applicationId: number,
-	matches: { keyword_id: number; mention_count: number; blurb_id: number | null }[],
+	matches: { keyword_id: number; mention_count: number; blurb_id: number | null }[]
 ): void {
 	const tx = db.transaction(() => {
-		db.prepare("DELETE FROM app_keyword_match WHERE application_id = ?").run(applicationId);
+		db.prepare('DELETE FROM app_keyword_match WHERE application_id = ?').run(applicationId);
 		const insert = db.prepare(
-			"INSERT INTO app_keyword_match (application_id, keyword_id, mention_count, blurb_id) VALUES (?, ?, ?, ?)",
+			'INSERT INTO app_keyword_match (application_id, keyword_id, mention_count, blurb_id) VALUES (?, ?, ?, ?)'
 		);
-		for (const m of matches) insert.run(applicationId, m.keyword_id, m.mention_count, m.blurb_id);
+		for (const m of matches)
+			insert.run(applicationId, m.keyword_id, m.mention_count, m.blurb_id);
 	});
 	tx();
 }
 
 export function listApplications(db: Database.Database): ApplicationSummary[] {
 	return db
-		.prepare("SELECT id, company_name, role_title, status, scan_date FROM applications ORDER BY scan_date DESC")
+		.prepare(
+			'SELECT id, company_name, role_title, status, scan_date FROM applications ORDER BY scan_date DESC'
+		)
 		.all() as ApplicationSummary[];
 }
 
 export function getApplication(db: Database.Database, id: number): ApplicationFull | null {
-	const app = db.prepare("SELECT * FROM applications WHERE id = ?").get(id) as
+	const app = db.prepare('SELECT * FROM applications WHERE id = ?').get(id) as
 		| (ApplicationSummary & {
 				hiring_manager: string | null;
 				job_url: string | null;
@@ -89,8 +99,9 @@ export function getApplication(db: Database.Database, id: number): ApplicationFu
 
 	if (!app) return null;
 
-	const letter = db.prepare("SELECT content FROM cover_letters WHERE application_id = ?").get(id) as
-		{ content: string } | undefined;
+	const letter = db
+		.prepare('SELECT content FROM cover_letters WHERE application_id = ?')
+		.get(id) as { content: string } | undefined;
 
 	const matches = db
 		.prepare(
@@ -98,7 +109,7 @@ export function getApplication(db: Database.Database, id: number): ApplicationFu
 		FROM app_keyword_match akm
 		JOIN keywords k ON k.id = akm.keyword_id
 		WHERE akm.application_id = ?
-			ORDER BY akm.mention_count DESC`,
+			ORDER BY akm.mention_count DESC`
 		)
 		.all(id) as {
 		keyword_id: number;
@@ -111,9 +122,9 @@ export function getApplication(db: Database.Database, id: number): ApplicationFu
 }
 
 export function updateApplicationStatus(db: Database.Database, id: number, status: string): void {
-	db.prepare("UPDATE applications SET status = ? WHERE id = ?").run(status, id);
+	db.prepare('UPDATE applications SET status = ? WHERE id = ?').run(status, id);
 }
 
 export function updateApplicationNotes(db: Database.Database, id: number, notes: string): void {
-	db.prepare("UPDATE applications SET notes = ? WHERE id = ?").run(notes, id);
+	db.prepare('UPDATE applications SET notes = ? WHERE id = ?').run(notes, id);
 }

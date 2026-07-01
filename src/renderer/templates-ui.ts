@@ -1,4 +1,4 @@
-import type { TemplateDTO } from "./types.ts";
+import type { TemplateDTO } from './types.ts';
 
 export const TemplatesUI = (() => {
 	let listEl: HTMLElement;
@@ -8,17 +8,17 @@ export const TemplatesUI = (() => {
 	let selectedId: number | null = null;
 
 	function init(): void {
-		listEl = document.getElementById("tpl-list") as HTMLElement;
-		previewEl = document.getElementById("tpl-preview") as HTMLIFrameElement;
-		uploadInput = document.getElementById("tpl-upload-input") as HTMLInputElement;
+		listEl = document.getElementById('tpl-list') as HTMLElement;
+		previewEl = document.getElementById('tpl-preview') as HTMLIFrameElement;
+		uploadInput = document.getElementById('tpl-upload-input') as HTMLInputElement;
 
-		uploadInput.addEventListener("change", async () => {
+		uploadInput.addEventListener('change', async () => {
 			const file = uploadInput.files?.[0];
 			if (!file) return;
 			const text = await file.text();
-			const name = file.name.replace(/\.html?$/i, "");
+			const name = file.name.replace(/\.html?$/i, '');
 			const id = await window.electronAPI.templates.create(name, text);
-			uploadInput.value = "";
+			uploadInput.value = '';
 			await refresh(id);
 		});
 	}
@@ -39,8 +39,10 @@ export const TemplatesUI = (() => {
 
 		listEl.innerHTML = templates
 			.map((t) => {
-				const active = t.id === selectedId ? " active" : "";
-				const defaultBadge = t.is_default ? '<span class="tpl-default-badge">Default</span>' : "";
+				const active = t.id === selectedId ? ' active' : '';
+				const defaultBadge = t.is_default
+					? '<span class="tpl-default-badge">Default</span>'
+					: '';
 				return `
           <div class="tpl-row${active}" data-id="${t.id}">
             <span class="tpl-row-name">${esc(t.name)} ${defaultBadge}</span>
@@ -50,27 +52,27 @@ export const TemplatesUI = (() => {
             </div>
           </div>`;
 			})
-			.join("");
+			.join('');
 
-		listEl.querySelectorAll<HTMLElement>(".tpl-row").forEach((el) => {
-			el.addEventListener("click", (e) => {
-				if ((e.target as HTMLElement).closest("button")) return;
+		listEl.querySelectorAll<HTMLElement>('.tpl-row').forEach((el) => {
+			el.addEventListener('click', (e) => {
+				if ((e.target as HTMLElement).closest('button')) return;
 				selectedId = Number(el.dataset.id);
 				renderList();
 				renderPreview();
 			});
 		});
 
-		listEl.querySelectorAll<HTMLButtonElement>(".tpl-set-default-btn").forEach((btn) => {
-			btn.addEventListener("click", async () => {
+		listEl.querySelectorAll<HTMLButtonElement>('.tpl-set-default-btn').forEach((btn) => {
+			btn.addEventListener('click', async () => {
 				await window.electronAPI.templates.setDefault(Number(btn.dataset.id));
 				await refresh(Number(btn.dataset.id));
 			});
 		});
 
-		listEl.querySelectorAll<HTMLButtonElement>(".tpl-delete-btn").forEach((btn) => {
-			btn.addEventListener("click", async () => {
-				if (!confirm("Delete this template?")) return;
+		listEl.querySelectorAll<HTMLButtonElement>('.tpl-delete-btn').forEach((btn) => {
+			btn.addEventListener('click', async () => {
+				if (!confirm('Delete this template?')) return;
 				await window.electronAPI.templates.delete(Number(btn.dataset.id));
 				selectedId = null;
 				await refresh();
@@ -87,7 +89,7 @@ export const TemplatesUI = (() => {
 		}
 		const highlighted = tpl.content.replace(
 			/\{\{(\w+)\}\}/g,
-			'<mark style="background:#FFF3B3;padding:1px 3px;border-radius:2px;">{{$1}}</mark>',
+			'<mark style="background:#FFF3B3;padding:1px 3px;border-radius:2px;">{{$1}}</mark>'
 		);
 		previewEl.srcdoc = highlighted;
 	}
@@ -95,7 +97,7 @@ export const TemplatesUI = (() => {
 	function esc(s: string): string {
 		return s.replace(
 			/[&<>"']/g,
-			(c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!,
+			(c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!
 		);
 	}
 

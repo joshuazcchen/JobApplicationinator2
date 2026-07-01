@@ -1,38 +1,38 @@
-import { Editor } from "./editor.js";
-import { Sidebar } from "./sidebar.js";
-import { KeywordsUI } from "./keywords-ui.js";
-import { TemplatesUI } from "./templates-ui.js";
-import type { ScanMethod, MatchDTO } from "./types.js";
+import { Editor } from './editor.js';
+import { Sidebar } from './sidebar.js';
+import { KeywordsUI } from './keywords-ui.js';
+import { TemplatesUI } from './templates-ui.js';
+import type { ScanMethod, MatchDTO } from './types.js';
 
-const scanBtn = document.getElementById("scan-btn") as HTMLButtonElement;
-const methodSelect = document.getElementById("method-select") as HTMLSelectElement;
-const logPanel = document.getElementById("log-panel") as HTMLPreElement;
-const matchesContainer = document.getElementById("matches-container") as HTMLElement;
-const saveHtmlBtn = document.getElementById("save-html-btn") as HTMLButtonElement;
-const saveTxtBtn = document.getElementById("save-txt-btn") as HTMLButtonElement;
-const saveEditsBtn = document.getElementById("save-edits-btn") as HTMLButtonElement;
-const statusBar = document.getElementById("status-bar") as HTMLElement;
-const newScanBtn = document.getElementById("new-scan-btn") as HTMLButtonElement;
+const scanBtn = document.getElementById('scan-btn') as HTMLButtonElement;
+const methodSelect = document.getElementById('method-select') as HTMLSelectElement;
+const logPanel = document.getElementById('log-panel') as HTMLPreElement;
+const matchesContainer = document.getElementById('matches-container') as HTMLElement;
+const saveHtmlBtn = document.getElementById('save-html-btn') as HTMLButtonElement;
+const saveTxtBtn = document.getElementById('save-txt-btn') as HTMLButtonElement;
+const saveEditsBtn = document.getElementById('save-edits-btn') as HTMLButtonElement;
+const statusBar = document.getElementById('status-bar') as HTMLElement;
+const newScanBtn = document.getElementById('new-scan-btn') as HTMLButtonElement;
 
-const navButtons = document.querySelectorAll<HTMLButtonElement>(".nav-btn");
-const views = document.querySelectorAll<HTMLElement>(".view");
+const navButtons = document.querySelectorAll<HTMLButtonElement>('.nav-btn');
+const views = document.querySelectorAll<HTMLElement>('.view');
 
 let currentApplicationId: number | null = null;
 let lastMatches: MatchDTO[] = [];
 
 function showView(name: string): void {
-	views.forEach((v) => (v.style.display = v.dataset.view === name ? "flex" : "none"));
-	navButtons.forEach((b) => b.classList.toggle("active", b.dataset.view === name));
+	views.forEach((v) => (v.style.display = v.dataset.view === name ? 'flex' : 'none'));
+	navButtons.forEach((b) => b.classList.toggle('active', b.dataset.view === name));
 
-	if (name === "keywords") KeywordsUI.refresh();
-	if (name === "templates") TemplatesUI.refresh();
+	if (name === 'keywords') KeywordsUI.refresh();
+	if (name === 'templates') TemplatesUI.refresh();
 }
 
 navButtons.forEach((btn) => {
-	btn.addEventListener("click", () => showView(btn.dataset.view!));
+	btn.addEventListener('click', () => showView(btn.dataset.view!));
 });
 
-type StatusType = "idle" | "running" | "success" | "error";
+type StatusType = 'idle' | 'running' | 'success' | 'error';
 
 function setStatus(msg: string, type: StatusType): void {
 	statusBar.textContent = msg;
@@ -40,39 +40,41 @@ function setStatus(msg: string, type: StatusType): void {
 }
 
 function appendLog(msg: string): void {
-	logPanel.textContent += msg + "\n";
+	logPanel.textContent += msg + '\n';
 	logPanel.scrollTop = logPanel.scrollHeight;
 }
 
-const isMac = navigator.platform.toLowerCase().startsWith("mac");
-methodSelect.value = isMac ? "safari" : "cdp";
+const isMac = navigator.platform.toLowerCase().startsWith('mac');
+methodSelect.value = isMac ? 'safari' : 'cdp';
 
-Editor.init("letter-editor");
-Sidebar.init("sidebar-list", openApplication);
+Editor.init('letter-editor');
+Sidebar.init('sidebar-list', openApplication);
 KeywordsUI.init();
 TemplatesUI.init();
 
-document.getElementById("btn-bold")!.addEventListener("click", () => Editor.exec("bold"));
-document.getElementById("btn-italic")!.addEventListener("click", () => Editor.exec("italic"));
-document.getElementById("btn-underline")!.addEventListener("click", () => Editor.exec("underline"));
-document.getElementById("btn-undo")!.addEventListener("click", () => Editor.undo());
-document.getElementById("btn-redo")!.addEventListener("click", () => Editor.redo());
-document.getElementById("btn-marker")!.addEventListener("click", () => Editor.insertMarkerAtCursor());
+document.getElementById('btn-bold')!.addEventListener('click', () => Editor.exec('bold'));
+document.getElementById('btn-italic')!.addEventListener('click', () => Editor.exec('italic'));
+document.getElementById('btn-underline')!.addEventListener('click', () => Editor.exec('underline'));
+document.getElementById('btn-undo')!.addEventListener('click', () => Editor.undo());
+document.getElementById('btn-redo')!.addEventListener('click', () => Editor.redo());
+document
+	.getElementById('btn-marker')!
+	.addEventListener('click', () => Editor.insertMarkerAtCursor());
 
-document.getElementById("font-select")!.addEventListener("change", (e) => {
-	Editor.exec("fontName", (e.target as HTMLSelectElement).value);
+document.getElementById('font-select')!.addEventListener('change', (e) => {
+	Editor.setFontSize(Number((e.target as HTMLSelectElement).value));
 });
-document.getElementById("size-select")!.addEventListener("change", (e) => {
-	Editor.exec("fontSize", (e.target as HTMLSelectElement).value);
+document.getElementById('size-select')!.addEventListener('change', (e) => {
+	Editor.exec('fontSize', (e.target as HTMLSelectElement).value);
 });
 
-newScanBtn.addEventListener("click", () => {
+newScanBtn.addEventListener('click', () => {
 	currentApplicationId = null;
-	logPanel.textContent = "";
-	matchesContainer.innerHTML = "";
+	logPanel.textContent = '';
+	matchesContainer.innerHTML = '';
 	Editor.clear();
-	setStatus("Ready for a new scan.", "idle");
-	showView("scan");
+	setStatus('Ready for a new scan.', 'idle');
+	showView('scan');
 	Sidebar.refresh();
 });
 
@@ -90,7 +92,7 @@ function renderMatches(matches: MatchDTO[]): void {
 		.slice(0, 25)
 		.map((m: MatchDTO, i: number) => {
 			const pct = Math.round((m.count / maxCount) * 100);
-			const cls = m.hasBlurb ? "has-blurb" : "no-blurb";
+			const cls = m.hasBlurb ? 'has-blurb' : 'no-blurb';
 			const action = m.hasBlurb
 				? `<button class="btn-insert" data-idx="${i}">+ Insert</button>`
 				: `<button class="btn-write" data-name="${m.name}">Write blurb</button>`;
@@ -102,31 +104,32 @@ function renderMatches(matches: MatchDTO[]): void {
 			${action}
 			</div>`;
 		})
-		.join("");
+		.join('');
 
-	matchesContainer.querySelectorAll<HTMLButtonElement>(".btn-insert").forEach((btn) => {
-		btn.addEventListener("click", () => {
+	matchesContainer.querySelectorAll<HTMLButtonElement>('.btn-insert').forEach((btn) => {
+		btn.addEventListener('click', () => {
 			const blurb = lastMatches?.[Number(btn.dataset.idx)]?.blurbHtml;
 			if (blurb) Editor.insertBlurbAtMarker(blurb);
 		});
 	});
 
-	matchesContainer.querySelectorAll<HTMLButtonElement>(".btn-write").forEach((btn) => {
-		btn.addEventListener("click", () => {
-			showView("keywords");
-			(document.getElementById("kw-new-name") as HTMLInputElement).value = btn.dataset.name ?? "";
+	matchesContainer.querySelectorAll<HTMLButtonElement>('.btn-write').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			showView('keywords');
+			(document.getElementById('kw-new-name') as HTMLInputElement).value =
+				btn.dataset.name ?? '';
 		});
 	});
 }
 
-scanBtn.addEventListener("click", async () => {
+scanBtn.addEventListener('click', async () => {
 	const method = methodSelect.value as ScanMethod;
 
-	logPanel.textContent = "";
-	matchesContainer.innerHTML = "";
+	logPanel.textContent = '';
+	matchesContainer.innerHTML = '';
 	Editor.clear();
 	scanBtn.disabled = true;
-	setStatus("Scanning…", "running");
+	setStatus('Scanning…', 'running');
 
 	window.electronAPI.clearLogListeners();
 	window.electronAPI.onLog(appendLog);
@@ -135,19 +138,19 @@ scanBtn.addEventListener("click", async () => {
 		const result = await window.electronAPI.scan(method);
 
 		if (!result.success) {
-			setStatus(`Error: ${result.error ?? "Unknown error"}`, "error");
+			setStatus(`Error: ${result.error ?? 'Unknown error'}`, 'error');
 			return;
 		}
 
 		currentApplicationId = result.applicationId ?? null;
 		renderMatches(result.matches ?? []);
-		Editor.setHTML(result.assembled ?? "");
+		Editor.setHTML(result.assembled ?? '');
 
 		const matchCount = result.matches?.length ?? 0;
 		setStatus(
-			`Done — ${matchCount} keyword${matchCount !== 1 ? "s" : ""} matched` +
-				(result.title ? ` from "${result.title}"` : ""),
-			"success",
+			`Done — ${matchCount} keyword${matchCount !== 1 ? 's' : ''} matched` +
+				(result.title ? ` from "${result.title}"` : ''),
+			'success'
 		);
 
 		await Sidebar.refresh(currentApplicationId ?? undefined);
@@ -161,45 +164,45 @@ async function openApplication(id: number): Promise<void> {
 	if (!app) return;
 
 	currentApplicationId = app.id;
-	logPanel.textContent = `[I] Reopened application ${app.id}: "${app.role_title ?? "Untitled"}"`;
+	logPanel.textContent = `[I] Reopened application ${app.id}: "${app.role_title ?? 'Untitled'}"`;
 
 	renderMatches(
 		app.matches.map((m) => ({
 			name: m.name,
 			count: m.mention_count,
 			hasBlurb: m.blurb_id !== null,
-			blurbHtml: null,
-		})),
+			blurbHtml: null
+		}))
 	);
 
-	Editor.setHTML(app.cover_letter_html ?? "");
-	setStatus(`Viewing application #${app.id}`, "idle");
-	showView("scan");
+	Editor.setHTML(app.cover_letter_html ?? '');
+	setStatus(`Viewing application #${app.id}`, 'idle');
+	showView('scan');
 	await Sidebar.refresh(app.id);
 }
 
-async function handleSave(format: "html" | "txt"): Promise<void> {
+async function handleSave(format: 'html' | 'txt'): Promise<void> {
 	const html = Editor.getHTML();
 	if (!html.trim()) {
-		setStatus("Nothing to save, scan first.", "error");
+		setStatus('Nothing to save, scan first.', 'error');
 		return;
 	}
 	const result = await window.electronAPI.saveOutput(html, format);
-	if (result.success) setStatus(`Saved to ${result.filePath}`, "success");
-	else if (!result.cancelled) setStatus(`Save failed: ${result.error}`, "error");
+	if (result.success) setStatus(`Saved to ${result.filePath}`, 'success');
+	else if (!result.cancelled) setStatus(`Save failed: ${result.error}`, 'error');
 }
 
-saveHtmlBtn.addEventListener("click", () => handleSave("html"));
-saveTxtBtn.addEventListener("click", () => handleSave("txt"));
+saveHtmlBtn.addEventListener('click', () => handleSave('html'));
+saveTxtBtn.addEventListener('click', () => handleSave('txt'));
 
-saveEditsBtn.addEventListener("click", async () => {
+saveEditsBtn.addEventListener('click', async () => {
 	if (!currentApplicationId) {
-		setStatus("Run a scan first, nothing to save.", "error");
+		setStatus('Run a scan first, nothing to save.', 'error');
 		return;
 	}
 	await window.electronAPI.applications.saveCoverLetter(currentApplicationId, Editor.getHTML());
-	setStatus("Edits saved to database.", "success");
+	setStatus('Edits saved to database.', 'success');
 });
 
 Sidebar.refresh();
-showView("scan");
+showView('scan');
