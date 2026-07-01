@@ -33,12 +33,12 @@ export const Editor = (() => {
 		.replace(/<\/?(html|head|body)[^>]*>/gi, '')
 		.trim();
 	}
-
-	function init(elementId: string): void {
+  
+	function init(elementId: string, textAreaId: string, previewId: string): void {
 		root = document.getElementById(elementId) as HTMLElement;
 		textArea = document.getElementById(textAreaId) as HTMLTextAreaElement;
 		previewFrame = document.getElementById(previewId) as HTMLIFrameElement;
-		root.contentEditable = 'true';
+		root.contentEditable = "true";
 
 		resetWithMarker();
 		pushSnapshot(true);
@@ -191,6 +191,8 @@ export const Editor = (() => {
 		setHTML,
 		undo,
 		redo,
-		insertAtExp
+		insertAtExp,
+		setMode,
+		getMode,
 	};
 })();

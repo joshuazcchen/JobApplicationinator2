@@ -47,8 +47,8 @@ function appendLog(msg: string): void {
 const isMac = navigator.platform.toLowerCase().startsWith('mac');
 methodSelect.value = isMac ? 'safari' : 'cdp';
 
-Editor.init('letter-editor', 'letter-textarea', 'letter-preview');
-Sidebar.init('sidebar-list', openApplication);
+Editor.init("letter-editor", "letter-textarea", "letter-preview");
+Sidebar.init("sidebar-list", openApplication);
 KeywordsUI.init();
 TemplatesUI.init();
 
@@ -88,7 +88,27 @@ document.getElementById('btn-import-pdf')!.addEventListener('click', async () =>
 	else if (!result.cancelled) setStatus(`Import failed: ${result.error}`, 'error');
 });
 
-newScanBtn.addEventListener('click', () => {
+document.querySelectorAll<HTMLButtonElement>('.mode-tab').forEach(tab => {
+	tab.addEventListener('click', () => {
+		document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+		tab.classList.add('active');
+		Editor.setMode(tab.dataset.mode as 'visual' | 'text' | 'preview');
+	});
+});
+
+document.getElementById('btn-import-docx')!.addEventListener('click', async () => {
+	const result = await window.electronAPI.importFile.docx();
+	if (result.success && result.html) Editor.insertAtExp(result.html);
+	else if (!result.cancelled) setStatus(`Import failed: ${result.error}`, 'error');
+});
+
+document.getElementById('btn-import-pdf')!.addEventListener('click', async () => {
+	const result = await window.electronAPI.importFile.pdf();
+	if (result.success && result.html) Editor.insertAtExp(result.html);
+	else if (!result.cancelled) setStatus(`Import failed: ${result.error}`, 'error');
+});
+
+newScanBtn.addEventListener("click", () => {
 	currentApplicationId = null;
 	logPanel.textContent = '';
 	matchesContainer.innerHTML = '';
@@ -109,13 +129,13 @@ function renderMatches(matches: MatchDTO[]): void {
 	const maxCount = Math.max(...matches.map((m) => m.count));
 
 	matchesContainer.innerHTML = matches
-		.slice(0, 25)
-		.map((m: MatchDTO, i: number) => {
-			const pct = Math.round((m.count / maxCount) * 100);
-			const cls = m.hasBlurb ? 'has-blurb' : 'no-blurb';
-			const action = m.hasBlurb
-				? `<button class="btn-insert" data-idx="${i}">+ Insert</button>`
-				: `<button class="btn-write" data-name="${m.name}">Write blurb</button>`;
+	.slice(0, 25)
+	.map((m: MatchDTO, i: number) => {
+		const pct = Math.round((m.count / maxCount) * 100);
+		const cls = m.hasBlurb ? "has-blurb" : "no-blurb";
+		const action = m.hasBlurb
+			? `<button class="btn-insert" data-idx="${i}">+ Insert</button>`
+			: `<button class="btn-write" data-name="${m.name}">Write blurb</button>`;
 			return `
 			<div class="match-row">
 			<div class="bar-track"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>
@@ -123,8 +143,8 @@ function renderMatches(matches: MatchDTO[]): void {
 			<span class="match-count">×${m.count}</span>
 			${action}
 			</div>`;
-		})
-		.join('');
+	})
+	.join("");
 
 	matchesContainer.querySelectorAll<HTMLButtonElement>('.btn-insert').forEach((btn) => {
 		btn.addEventListener('click', () => {

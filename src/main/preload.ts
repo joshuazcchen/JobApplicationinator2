@@ -22,7 +22,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
 			ipcRenderer.invoke('kw:updateBlurb', id, label, contentHtml),
 		deleteBlurb: (id: number) => ipcRenderer.invoke('kw:deleteBlurb', id),
 		setDefaultBlurb: (keywordId: number, blurbId: number) =>
-			ipcRenderer.invoke('kw:setDefaultBlurb', keywordId, blurbId)
+			ipcRenderer.invoke("kw:setDefaultBlurb", keywordId, blurbId),
+		importFile: () => ipcRenderer.invoke('kw:importFile'),
+		exportFile: () => ipcRenderer.invoke('kw:exportFile'),
 	},
 
 	templates: {
@@ -48,6 +50,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
 	importFile: {
 		docx: () => ipcRenderer.invoke('import:docx'),
-		pdf: () => ipcRenderer.invoke('import:pdf')
-	}
+		pdf: () => ipcRenderer.invoke('import:pdf'),
+	},
 });

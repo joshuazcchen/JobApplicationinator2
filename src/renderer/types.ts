@@ -101,6 +101,8 @@ export interface ElectronAPI {
 		updateBlurb: (id: number, label: string, contentHtml: string) => Promise<void>;
 		deleteBlurb: (id: number) => Promise<void>;
 		setDefaultBlurb: (keywordId: number, blurbId: number) => Promise<void>;
+		importFile: () => Promise<{ success: boolean; cancelled?: boolean; imported?: number; error?: string }>;
+		exportFile: () => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
 	};
 
 	templates: {
@@ -122,6 +124,10 @@ export interface ElectronAPI {
 		stats: () => Promise<AppStats>;
 	};
 
+	importFile: {
+		docx: () => Promise<ImportResult>;
+		pdf: () => Promise<ImportResult>;
+	};
 	importFile: {
 		docx: () => Promise<ImportResult>;
 		pdf: () => Promise<ImportResult>;
