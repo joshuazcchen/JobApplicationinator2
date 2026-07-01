@@ -108,7 +108,7 @@ document.getElementById('btn-import-pdf')!.addEventListener('click', async () =>
 	else if (!result.cancelled) setStatus(`Import failed: ${result.error}`, 'error');
 });
 
-newScanBtn.addEventListener("click", () => {
+newScanBtn.addEventListener('click', () => {
 	currentApplicationId = null;
 	logPanel.textContent = '';
 	matchesContainer.innerHTML = '';

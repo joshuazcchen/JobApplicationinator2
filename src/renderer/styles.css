@@ -30,24 +30,31 @@
 	--mono: 'Comic Sans MS', 'Comic Sans', monospace;
 }
 
+html,
 body {
 	font-family: 'Comic Sans MS', 'Comic Sans', monospace;
 	font-size: 14px;
 	background: var(--bg);
 	color: var(--text);
+}
+
+.app-shell {
+	display: flex;
+	flex-direction: column;
 	height: 100vh;
-	overflow: hidden;
 }
 
 .app {
 	display: flex;
-	flex-direction: column;
-	height: calc(100vh-28px);
+	flex: 1;
+	min-height: 0;
 }
 
 .sidebar {
 	width: 260px;
 	flex-shrink: 0;
+	height: 100%;
+	min-height: 0;
 	background: var(--sidebar-bg);
 	color: var(--sidebar-text);
 	display: flex;
@@ -165,6 +172,7 @@ body {
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	min-height: 0;
 }
 
 .view {
@@ -174,6 +182,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+	min-height: 0;
 }
 
 .scan-section {
@@ -294,6 +303,7 @@ input:focus {
 	flex: 1;
 	min-height: 0;
 }
+
 @media (max-width: 900px) {
 	.results-grid {
 		grid-template-columns: 1fr;
@@ -309,7 +319,9 @@ input:focus {
 	flex-direction: column;
 	gap: 12px;
 	min-height: 0;
+	overflow: hidden;
 }
+
 .panel h2 {
 	font-size: 13px;
 	font-weight: 700;
@@ -443,13 +455,16 @@ input:focus {
 	line-height: 1.7;
 	background: var(--white);
 }
+
 .letter-editor:focus {
 	outline: none;
 	border-color: var(--accent);
 }
+
 .letter-editor p {
 	margin-bottom: 10px;
 }
+
 .insertion-marker {
 	background: var(--inspect);
 	color: var(--inspect-text);
@@ -471,12 +486,15 @@ input:focus {
 	gap: 16px;
 	flex: 1;
 	min-height: 0;
+	overflow: hidden;
 }
+
 .kw-sidebar {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
 }
+
 .kw-list {
 	flex: 1;
 	overflow-y: auto;
@@ -618,6 +636,7 @@ input:focus {
 	gap: 16px;
 	flex: 1;
 	min-height: 0;
+	overflow: hidden;
 }
 .tpl-sidebar {
 	display: flex;

@@ -154,10 +154,71 @@
 									Add Keyword
 								</button>
 							</div>
-						</div>
 
-						<div id="kw-detail" class="kw-detail">
-							<p class="hint-text">Select a keyword to edit blurbs.</p>
+							<div class="panel editor-panel">
+								<h2>Cover Letter</h2>
+
+								<div class="editor-toolbar">
+									<button id="btn-bold" class="tb-btn" title="Bold">
+										<b>B</b>
+									</button>
+									<button id="btn-italic" class="tb-btn" title="Italic">
+										<i>I</i>
+									</button>
+									<button id="btn-underline" class="tb-btn" title="Underline">
+										<u>U</u>
+									</button>
+									<span class="tb-sep"></span>
+									<select id="font-select" class="tb-select" title="Font">
+										<option value="Georgia">Georgia</option>
+										<option value="Arial">Arial</option>
+										<option value="'Times New Roman'">Times New Roman</option>
+										<option value="'Courier New'">Courier New</option>
+										<option value="'Comic Sans'">Comic Sans</option>
+									</select>
+									<select id="size-select" class="tb-select" title="Size">
+										<option value="9">9</option>
+										<option value="10">10</option>
+										<option value="11">11</option>
+										<option value="12">12</option>
+										<option value="13">13</option>
+										<option value="14">14</option>
+										<option value="16" selected>16</option>
+										<option value="18">18</option>
+										<option value="24">24</option>
+										<option value="32">32</option>
+										<option value="48">48</option>
+									</select>
+									<span class="tb-sep"></span>
+									<button
+										id="btn-marker"
+										class="tb-btn"
+										title="Insert marker at cursor"
+									>
+										Marker
+									</button>
+									<span class="tb-sep"></span>
+									<button id="btn-undo" class="tb-btn" title="Undo">Undo</button>
+									<button id="btn-redo" class="tb-btn" title="Redo">Redo</button>
+								</div>
+
+								<div id="letter-editor" class="letter-editor"></div>
+
+								<div class="save-row">
+									<button id="save-edits-btn" class="btn btn-primary">
+										Save Edits
+									</button>
+									<button id="save-html-btn" class="btn btn-secondary">
+										Export HTML
+									</button>
+									<button id="save-txt-btn" class="btn btn-secondary">
+										Export TXT
+									</button>
+									<button id="save-pdf-btn" class="btn btn-secondary" disabled>
+										Export PDF
+									</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</section>
@@ -180,21 +241,75 @@
 									accept=".html,.htm"
 									style="display: none"
 								/>
+					</section>
+
+					<section class="view view-keywords" data-view="keywords" style="display: none">
+						<div class="kw-layout">
+							<div class="kw-sidebar">
+								<h2>Keywords</h2>
+								<div id="kw-list" class="kw-list"></div>
+
+								<div class="kw-add-form">
+									<input
+										id="kw-new-name"
+										placeholder="Keyword name (e.g. Python)"
+									/>
+									<input
+										id="kw-new-triggers"
+										placeholder="Triggers, comma-separated"
+									/>
+									<button id="kw-add-btn" class="btn btn-primary">
+										+ Add Keyword
+									</button>
+								</div>
+							</div>
+
+							<div id="kw-detail" class="kw-detail">
+								<p class="hint-text">Select a keyword to edit blurbs.</p>
 							</div>
 						</div>
+					</section>
 
-						<div class="tpl-preview-wrap">
-							<h2>Preview <span class="hint">({{variables}} highlighted)</span></h2>
-							<iframe id="tpl-preview" class="tpl-preview"></iframe>
+					<section
+						class="view view-templates"
+						data-view="templates"
+						style="display: none"
+					>
+						<div class="tpl-layout">
+							<div class="tpl-sidebar">
+								<h2>Templates</h2>
+								<div id="tpl-list" class="tpl-list"></div>
+
+								<div class="tpl-upload">
+									<label
+										for="tpl-upload-input"
+										class="btn btn-primary tpl-upload-label"
+										>Upload Template</label
+									>
+									<input
+										id="tpl-upload-input"
+										type="file"
+										accept=".html,.htm"
+										style="display: none"
+									/>
+								</div>
+							</div>
+
+							<div class="tpl-preview-wrap">
+								<h2>
+									Preview <span class="hint">({{variables}} highlighted)</span>
+								</h2>
+								<iframe id="tpl-preview" class="tpl-preview"></iframe>
+							</div>
 						</div>
-					</div>
-				</section>
-			</main>
-		</div>
+					</section>
+				</main>
+			</div>
 
-		<footer class="app-footer">
-			<div id="status-bar" class="status-bar status-idle">Ready</div>
-		</footer>
+			<footer class="app-footer">
+				<div id="status-bar" class="status-bar status-idle">Ready</div>
+			</footer>
+		</div>
 
 		<script type="module" src="./editor.js"></script>
 		<script type="module" src="./sidebar.js"></script>

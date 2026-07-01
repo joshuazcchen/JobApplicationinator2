@@ -90,6 +90,17 @@ export const Editor = (() => {
 		pushSnapshot();
 	}
 
+	function setFontSize(px: number): void {
+		root.focus();
+		document.execCommand('fontSize', false, '7');
+		root.querySelectorAll('font[size="7"]').forEach((el) => {
+			const span = el as HTMLElement;
+			span.removeAttribute('size');
+			span.style.fontSize = `${px}px`;
+		});
+		pushSnapshot();
+	}
+
 	function resetWithMarker(): void {
 		root.innerHTML =
 			'<p><span class="insertion-marker" contenteditable="false">insert here</span></p>';
@@ -184,6 +195,7 @@ export const Editor = (() => {
 	return {
 		init,
 		exec,
+		setFontSize,
 		clear,
 		insertBlurbAtMarker,
 		insertMarkerAtCursor,
