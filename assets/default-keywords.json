@@ -177,7 +177,12 @@
 		{
 			"id": 22,
 			"name": "Microservices",
-			"triggers": ["microservices", "microservice", "distributed systems", "service-oriented"],
+			"triggers": [
+				"microservices",
+				"microservice",
+				"distributed systems",
+				"service-oriented"
+			],
 			"blurbs": []
 		},
 		{
@@ -205,7 +210,13 @@
 		{
 			"id": 24,
 			"name": "Docker",
-			"triggers": ["docker", "dockerfile", "docker-compose", "containerization", "containers"],
+			"triggers": [
+				"docker",
+				"dockerfile",
+				"docker-compose",
+				"containerization",
+				"containers"
+			],
 			"blurbs": [
 				{
 					"label": "Default",
@@ -265,7 +276,14 @@
 		{
 			"id": 32,
 			"name": "Git",
-			"triggers": ["git", "github", "gitlab", "bitbucket", "version control", "source control"],
+			"triggers": [
+				"git",
+				"github",
+				"gitlab",
+				"bitbucket",
+				"version control",
+				"source control"
+			],
 			"blurbs": []
 		},
 		{
@@ -312,7 +330,13 @@
 		{
 			"id": 37,
 			"name": "System Design",
-			"triggers": ["system design", "architecture", "scalability", "high availability", "distributed"],
+			"triggers": [
+				"system design",
+				"architecture",
+				"scalability",
+				"high availability",
+				"distributed"
+			],
 			"blurbs": []
 		},
 		{
@@ -334,13 +358,25 @@
 		{
 			"id": 39,
 			"name": "SQL",
-			"triggers": ["sql", "database queries", "query optimization", "relational database", "orm"],
+			"triggers": [
+				"sql",
+				"database queries",
+				"query optimization",
+				"relational database",
+				"orm"
+			],
 			"blurbs": []
 		},
 		{
 			"id": 40,
 			"name": "Cross-functional",
-			"triggers": ["cross-functional", "cross functional", "stakeholder", "collaboration", "cross-team"],
+			"triggers": [
+				"cross-functional",
+				"cross functional",
+				"stakeholder",
+				"collaboration",
+				"cross-team"
+			],
 			"blurbs": []
 		}
 	]
