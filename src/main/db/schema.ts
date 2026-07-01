@@ -28,7 +28,7 @@ export function initDatabase(): Database.Database {
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			keyword_id INTEGER REFERENCES keywords(id) ON DELETE CASCADE,
 			label TEXT NOT NULL,
-			content_html TEXT NOT NULL,
+			content TEXT NOT NULL,
 			is_default INTEGER DEFAULT 0,
 			created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 		);
@@ -36,7 +36,7 @@ export function initDatabase(): Database.Database {
 		CREATE TABLE IF NOT EXISTS templates (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			name TEXT NOT NULL,
-			content_html TEXT NOT NULL,
+			content TEXT NOT NULL,
 			is_default INTEGER DEFAULT 0,
 			created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 		);
@@ -56,7 +56,7 @@ export function initDatabase(): Database.Database {
 		CREATE TABLE IF NOT EXISTS cover_letters (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			application_id INTEGER REFERENCES applications(id) ON DELETE CASCADE,
-			content_html TEXT NOT NULL,
+			content TEXT NOT NULL,
 			exported_pdf_path TEXT,
 			last_edited DATETIME DEFAULT CURRENT_TIMESTAMP
 		);
