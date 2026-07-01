@@ -32,6 +32,8 @@
 			<main class="main-panel">
 				<section class="view view-scan" data-view="scan">
 					<div class="scan-section">
+						<!-- TODO: TEMPORARY STATS BAR HERE, LATER I WILL MOVE TO AN ACTUAL STARTING PAGE-->
+						<div id="stats-bar" class="stats-bar"></div>
 						<div class="scan-controls">
 							<div class="control-group">
 								<label for="method-select">Source</label>
@@ -61,7 +63,9 @@
 
 							<div class="editor-toolbar">
 								<div class="editor-mode-tabs">
-									<button class="mode-tab active" data-mode="visual">Visual</button>
+									<button class="mode-tab active" data-mode="visual">
+										Visual
+									</button>
 									<button class="mode-tab" data-mode="text">Text / HTML</button>
 									<button class="mode-tab" data-mode="preview">Preview</button>
 								</div>
@@ -82,32 +86,54 @@
 								</select>
 								<!-- TODO: could replace this with an actual proper system more akin to docs or
 			something.-->
-			<select id="size-select" class="tb-select" title="Size">
-				<option value="2">Small</option>
-				<option value="3" selected>Normal</option>
-				<option value="4">Large</option>
-				<option value="6">XLarge</option>
-			</select>
-			<span class="tb-sep"></span>
-			<button id="btn-marker" class="tb-btn" title="Insert marker at cursor">Marker</button>
-			<span class="tb-sep"></span>
-			<button id="btn-undo" class="tb-btn" title="Undo">Undo</button>
-			<button id="btn-redo" class="tb-btn" title="Redo">Redo</button>
-			<span class="tb-sep"></span>
-			<!-- TODO: make it just be one import button with the capability of handling either -->
-			<button id="btn-import-docx" class="tb-btn" title="Import DOCX">Import DOCX</button>
-<button id="btn-import-pdf" class="tb-btn" title="Import PDF">Import PDF</button>
+								<select id="size-select" class="tb-select" title="Size">
+									<option value="2">Small</option>
+									<option value="3" selected>Normal</option>
+									<option value="4">Large</option>
+									<option value="6">XLarge</option>
+								</select>
+								<span class="tb-sep"></span>
+								<button
+									id="btn-marker"
+									class="tb-btn"
+									title="Insert marker at cursor"
+								>
+									Marker
+								</button>
+								<span class="tb-sep"></span>
+								<button id="btn-undo" class="tb-btn" title="Undo">Undo</button>
+								<button id="btn-redo" class="tb-btn" title="Redo">Redo</button>
+								<span class="tb-sep"></span>
+								<!-- TODO: make it just be one import button with the capability of handling either -->
+								<button id="btn-import-docx" class="tb-btn" title="Import DOCX">
+									Import DOCX
+								</button>
+								<button id="btn-import-pdf" class="tb-btn" title="Import PDF">
+									Import PDF
+								</button>
 							</div>
 
 							<div id="letter-editor" class="letter-editor"></div>
-							<button id="btn-import-docx" class="tb-btn" title="Import DOCX">Import DocX</button>
-              <button id="btn-import-pdf" class="tb-btn" title="Import PDF">Import PDF</button>
+							<button id="btn-import-docx" class="tb-btn" title="Import DOCX">
+								Import DocX
+							</button>
+							<button id="btn-import-pdf" class="tb-btn" title="Import PDF">
+								Import PDF
+							</button>
 
 							<div class="save-row">
-								<button id="save-edits-btn" class="btn btn-primary">Save Edits</button>
-								<button id="save-html-btn" class="btn btn-secondary">Export HTML</button>
-								<button id="save-txt-btn" class="btn btn-secondary">Export TXT</button>
-								<button id="save-pdf-btn" class="btn btn-secondary" disabled>Export PDF</button>
+								<button id="save-edits-btn" class="btn btn-primary">
+									Save Edits
+								</button>
+								<button id="save-html-btn" class="btn btn-secondary">
+									Export HTML
+								</button>
+								<button id="save-txt-btn" class="btn btn-secondary">
+									Export TXT
+								</button>
+								<button id="save-pdf-btn" class="btn btn-secondary" disabled>
+									Export PDF
+								</button>
 							</div>
 						</div>
 					</div>
@@ -121,8 +147,13 @@
 
 							<div class="kw-add-form">
 								<input id="kw-new-name" placeholder="Keyword name (e.g. Python)" />
-								<input id="kw-new-triggers" placeholder="Triggers, comma-separated" />
-								<button id="kw-add-btn" class="btn btn-primary">+ Add Keyword</button>
+								<input
+									id="kw-new-triggers"
+									placeholder="Triggers, comma-separated"
+								/>
+								<button id="kw-add-btn" class="btn btn-primary">
+									+ Add Keyword
+								</button>
 							</div>
 						</div>
 
@@ -139,10 +170,17 @@
 							<div id="tpl-list" class="tpl-list"></div>
 
 							<div class="tpl-upload">
-								<label for="tpl-upload-input" class="btn btn-primary tpl-upload-label"
-									  >Upload Template</label
-								  >
-								  <input id="tpl-upload-input" type="file" accept=".html,.htm" style="display: none" />
+								<label
+									for="tpl-upload-input"
+									class="btn btn-primary tpl-upload-label"
+									>Upload Template</label
+								>
+								<input
+									id="tpl-upload-input"
+									type="file"
+									accept=".html,.htm"
+									style="display: none"
+								/>
 							</div>
 						</div>
 

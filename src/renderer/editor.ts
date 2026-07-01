@@ -28,22 +28,25 @@ export const Editor = (() => {
 		root = document.getElementById(elementId) as HTMLElement;
 		textArea = document.getElementById(textAreaId) as HTMLTextAreaElement;
 		previewFrame = document.getElementById(previewId) as HTMLIFrameElement;
-		root.contentEditable = "true";
+		root.contentEditable = 'true';
 
 		resetWithMarker();
 		pushSnapshot(true);
 
-		root.addEventListener("input", () => {
+		root.addEventListener('input', () => {
 			if (pushTimer) clearTimeout(pushTimer);
 			pushTimer = setTimeout(() => pushSnapshot(), 400);
 		});
 
-		root.addEventListener("keydown", (e) => {
+		root.addEventListener('keydown', (e) => {
 			const meta = e.metaKey || e.ctrlKey;
-			if (meta && e.key.toLowerCase() === "z" && !e.shiftKey) {
+			if (meta && e.key.toLowerCase() === 'z' && !e.shiftKey) {
 				e.preventDefault();
 				undo();
-			} else if (meta && ((e.key.toLowerCase() === "z" && e.shiftKey) || e.key.toLowerCase() === "y")) {
+			} else if (
+				meta &&
+				((e.key.toLowerCase() === 'z' && e.shiftKey) || e.key.toLowerCase() === 'y')
+			) {
 				e.preventDefault();
 				redo();
 			}
@@ -78,7 +81,8 @@ export const Editor = (() => {
 	}
 
 	function resetWithMarker(): void {
-		root.innerHTML = '<p><span class="insertion-marker" contenteditable="false">insert here</span></p>';
+		root.innerHTML =
+			'<p><span class="insertion-marker" contenteditable="false">insert here</span></p>';
 	}
 
 	function clear(): void {
@@ -90,13 +94,14 @@ export const Editor = (() => {
 
 	function insertBlurbAtMarker(html: string): void {
 		root.focus();
-		const marker = root.querySelector(".insertion-marker");
-		const wrapper = document.createElement("div");
+		const marker = root.querySelector('.insertion-marker');
+		const wrapper = document.createElement('div');
 		wrapper.innerHTML = html;
-		const newMarker = '<span class="insertion-marker" contenteditable="false">insert here</span>';
+		const newMarker =
+			'<span class="insertion-marker" contenteditable="false">insert here</span>';
 
 		if (marker && marker.parentElement) {
-			marker.outerHTML = wrapper.innerHTML + " " + newMarker;
+			marker.outerHTML = wrapper.innerHTML + ' ' + newMarker;
 		} else {
 			root.innerHTML += wrapper.innerHTML + ` <p>${newMarker}</p>`;
 		}
@@ -104,13 +109,16 @@ export const Editor = (() => {
 	}
 
 	function insertMarkerAtCursor(): void {
-		exec("insertHTML", '<span class="insertion-marker" contenteditable="false">insert here</span>');
+		exec(
+			'insertHTML',
+			'<span class="insertion-marker" contenteditable="false">insert here</span>'
+		);
 	}
 
 	function getHTML(): string {
 		// strip the marker otherwise it appears on the actual final output
 		const source = mode === 'text' ? textArea.value : root.innerHTML;
-		return source.replace(/<span class="insertion-marker"[^>]*>.*?<\/span>/g, "");
+		return source.replace(/<span class="insertion-marker"[^>]*>.*?<\/span>/g, '');
 	}
 
 	function setHTML(html: string): void {
@@ -168,6 +176,6 @@ export const Editor = (() => {
 		setHTML,
 		undo,
 		redo,
-		insertAtExp,
+		insertAtExp
 	};
 })();

@@ -1,14 +1,14 @@
-import { execSync } from "child_process";
+import { execSync } from 'child_process';
 
 export function scrapeSafari(): { html: string; title: string; url: string } {
-	if (process.platform !== "darwin") {
-		throw new Error("Safari scraping requires macOS.");
+	if (process.platform !== 'darwin') {
+		throw new Error('Safari scraping requires macOS.');
 	}
 
 	const run = (script: string): string =>
 		execSync(`osascript -e '${script}'`, {
 			timeout: 10_000,
-			maxBuffer: 1024 * 1024 * 50,
+			maxBuffer: 1024 * 1024 * 50
 		})
 			.toString()
 			.trim();
