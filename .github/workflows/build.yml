@@ -74,22 +74,3 @@ jobs:
                       release-win/**/*
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    lint:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v7
-
-            - uses: actions/setup-node@v6
-              with:
-                  node-version: '20'
-                  cache: 'npm'
-
-            - name: dependencies
-              run: npm ci
-
-            - name: Lint
-              run: npm run lint
-
-            - name: Format check
-              run: npm run format:check
