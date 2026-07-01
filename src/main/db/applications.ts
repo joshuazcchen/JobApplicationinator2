@@ -62,9 +62,9 @@ export function saveKeywordMatches(
 	matches: { keyword_id: number; mention_count: number; blurb_id: number | null }[],
 ): void {
 	const tx = db.transaction(() => {
-		db.prepare("DELETE FROM application_keyword_matches WHERE application_id = ?").run(applicationId);
+		db.prepare("DELETE FROM app_keyword_match WHERE application_id = ?").run(applicationId);
 		const insert = db.prepare(
-			"INSERT INTO application_keyword_matches (application_id, keyword_id, mention_count, blurb_id) VALUES (?, ?, ?, ?)",
+			"INSERT INTO app_keyword_match (application_id, keyword_id, mention_count, blurb_id) VALUES (?, ?, ?, ?)",
 		);
 		for (const m of matches) insert.run(applicationId, m.keyword_id, m.mention_count, m.blurb_id);
 	});
@@ -95,7 +95,7 @@ export function getApplication(db: Database.Database, id: number): ApplicationFu
 	const matches = db
 		.prepare(
 			`SELECT akm.keyword_id, k.name, akm.mention_count, akm.blurb_id
-		FROM application_keyword_matches akm
+		FROM app_keyword_match akm
 		JOIN keywords k ON k.id = akm.keyword_id
 		WHERE akm.application_id = ?
 			ORDER BY akm.mention_count DESC`,
