@@ -1,15 +1,15 @@
-import Database from "better-sqlite3";
-import { app } from "electron";
-import * as path from "path";
+import Database from 'better-sqlite3';
+import { app } from 'electron';
+import * as path from 'path';
 
 let db: Database.Database;
 
 export function initDatabase(): Database.Database {
-	const dbPath = path.join(app.getPath("userData"), "applicationinator.db");
+	const dbPath = path.join(app.getPath('userData'), 'applicationinator.db');
 	db = new Database(dbPath);
 
-	db.pragma("journal_mode = WAL");
-	db.pragma("foreign_keys = ON");
+	db.pragma('journal_mode = WAL');
+	db.pragma('foreign_keys = ON');
 
 	db.exec(`
 		CREATE TABLE IF NOT EXISTS keywords (

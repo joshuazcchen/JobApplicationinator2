@@ -42,7 +42,13 @@ export interface ApplicationFullDTO extends ApplicationSummaryDTO {
 	}[];
 }
 
-export type ScanMethod = "safari" | "cdp" | "clipboard";
+export interface AppStats {
+	total: number;
+	byStatus: Record<string, number>;
+	avgMatches: number;
+}
+
+export type ScanMethod = 'safari' | 'cdp' | 'clipboard';
 
 export interface MatchDTO {
 	name: string;
@@ -77,7 +83,7 @@ export interface ImportResult {
 
 export interface ElectronAPI {
 	scan: (method: ScanMethod) => Promise<ScanResult>;
-	saveOutput: (content: string, format: "html" | "txt") => Promise<SaveResult>;
+	saveOutput: (content: string, format: 'html' | 'txt') => Promise<SaveResult>;
 	onLog: (cb: (msg: string) => void) => void;
 	clearLogListeners: () => void;
 
@@ -86,7 +92,12 @@ export interface ElectronAPI {
 		create: (name: string, triggers: string[]) => Promise<number>;
 		update: (id: number, name: string, triggers: string[]) => Promise<void>;
 		delete: (id: number) => Promise<void>;
-		addBlurb: (keywordId: number, label: string, contentHtml: string, isDefault: boolean) => Promise<number>;
+		addBlurb: (
+			keywordId: number,
+			label: string,
+			contentHtml: string,
+			isDefault: boolean
+		) => Promise<number>;
 		updateBlurb: (id: number, label: string, contentHtml: string) => Promise<void>;
 		deleteBlurb: (id: number) => Promise<void>;
 		setDefaultBlurb: (keywordId: number, blurbId: number) => Promise<void>;
@@ -102,12 +113,20 @@ export interface ElectronAPI {
 		setDefault: (id: number) => Promise<void>;
 	};
 
+	// TODO: not sure why im commenting this here but I need to find a way to standardize spacing between the interfcae
+	// elements since theres just randomly spaces or no spaces
 	applications: {
 		list: () => Promise<ApplicationSummaryDTO[]>;
 		get: (id: number) => Promise<ApplicationFullDTO | null>;
 		updateStatus: (id: number, status: string) => Promise<void>;
 		updateNotes: (id: number, notes: string) => Promise<void>;
 		saveCoverLetter: (id: number, html: string) => Promise<void>;
+		stats: () => Promise<AppStats>;
+	};
+
+	importFile: {
+		docx: () => Promise<ImportResult>;
+		pdf: () => Promise<ImportResult>;
 	};
 	importFile: {
 		docx: () => Promise<ImportResult>;
