@@ -7,6 +7,7 @@ import { extractText, rankKeywords } from '../engine/keyword-engine'
 import { assembleLetterFromTemplate } from '../engine/assembler'
 
 import { getDatabase } from '../db/schema';
+import { getDefaultTemplate} from '../db/templates';
 import { getKeywordsDetails } from '../db/keywords';
 import { createApplication, saveCoverLetter, saveKeywordMatches } from '../db/applications';
 
@@ -62,6 +63,7 @@ export function registerScraperIPC(win: BrowserWindow): void {
 		}
 
 		log('[S] Assembling cover letter...')
+		const template = getDefaultTemplate(db);
 		const assembled = assembleLetterFromTemplate(template?.content ?? '<html><body>{{blurbs}}</body></html>', matches);
 		log(
 			`[S] Done: ${withBlurbs.length} blurbs inserted, ` +

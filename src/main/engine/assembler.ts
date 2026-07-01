@@ -9,7 +9,7 @@ export function assembleLetterFromTemplate(
 
 	const blurbSection =
 		topMatches.length > 0
-			? topMatches.map((m) => m.defaultBlurb!.content_html).join('\n\n')
+			? topMatches.map((m) => m.defaultBlurb!.content).join('\n\n')
 			: '<p>[No keywords matched]</p>'
 
 	const today = new Date().toLocaleDateString('en-US', {

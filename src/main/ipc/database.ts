@@ -7,7 +7,7 @@ import * as APP from '../db/applications';
 export function registerDatabaseIPC(): void {
 	const db = getDatabase();
 
-	ipcMain.handle('kw:list', () => KW.getAllKeywordsWithDetails(db));
+	ipcMain.handle('kw:list', () => KW.getKeywordsDetails(db));
 	ipcMain.handle('kw:create', (_e, name: string, triggers: string[]) =>
 		KW.createKeyword(db, name, triggers)
 	);
@@ -28,7 +28,7 @@ export function registerDatabaseIPC(): void {
 		KW.setDefaultBlurb(db, keywordId, blurbId)
 	);
 
-	ipcMain.handle('tpl:list', () => TPL.getAllTemplates(db));
+	ipcMain.handle('tpl:list', () => TPL.getTemplates(db));
 	ipcMain.handle('tpl:getDefault', () => TPL.getDefaultTemplate(db));
 	ipcMain.handle('tpl:create', (_e, name: string, contentHtml: string) =>
 		TPL.createTemplate(db, name, contentHtml)
