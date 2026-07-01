@@ -5,6 +5,8 @@ import { initDatabase, getDatabase } from './db/schema';
 import { registerScraperIPC } from './ipc/scraper';
 import { registerFileIPC } from './ipc/file';
 import { registerDatabaseIPC } from './ipc/database';
+import { registerImporterIPC } from './ipc/importer';
+import { registerLibraryIPC } from './ipc/library';
 import { seedKeywords } from './db/keywords';
 import { seedTemplates } from './db/templates';
 
@@ -65,7 +67,11 @@ app.whenReady().then(() => {
 	registerDatabaseIPC();
 
 	createWindow();
-	if (mainWindow) registerScraperIPC(mainWindow);
+	if (mainWindow) {
+		registerScraperIPC(mainWindow);
+		registerImporterIPC(mainWindow);
+		registerLibraryIPC(mainWindow);
+	}
 
 	app.on('activate', () => {
 		if (BrowserWindow.getAllWindows().length === 0) createWindow();

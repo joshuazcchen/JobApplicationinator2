@@ -44,6 +44,7 @@ export function registerDatabaseIPC(): void {
 	ipcMain.handle('app:updateNotes', (_e, id: number, notes: string) =>
 		APP.updateApplicationNotes(db, id, notes)
 	);
+	ipcMain.handle('app:stats', () => APP.getStats(db));
 	ipcMain.handle('app:saveCoverLetter', (_e, id: number, html: string) =>
 		APP.saveCoverLetter(db, id, html)
 	);

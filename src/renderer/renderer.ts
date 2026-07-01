@@ -47,7 +47,7 @@ function appendLog(msg: string): void {
 const isMac = navigator.platform.toLowerCase().startsWith('mac');
 methodSelect.value = isMac ? 'safari' : 'cdp';
 
-Editor.init('letter-editor');
+Editor.init('letter-editor', 'letter-textarea', 'letter-preview');
 Sidebar.init('sidebar-list', openApplication);
 KeywordsUI.init();
 TemplatesUI.init();
@@ -62,10 +62,50 @@ document
 	.addEventListener('click', () => Editor.insertMarkerAtCursor());
 
 document.getElementById('font-select')!.addEventListener('change', (e) => {
-	Editor.setFontSize(Number((e.target as HTMLSelectElement).value));
+	Editor.exec('fontName', (e.target as HTMLSelectElement).value);
 });
 document.getElementById('size-select')!.addEventListener('change', (e) => {
 	Editor.exec('fontSize', (e.target as HTMLSelectElement).value);
+});
+
+document.querySelectorAll<HTMLButtonElement>('.mode-tab').forEach((tab) => {
+	tab.addEventListener('click', () => {
+		document.querySelectorAll('.mode-tab').forEach((t) => t.classList.remove('active'));
+		tab.classList.add('active');
+		Editor.setMode(tab.dataset.mode as 'visual' | 'text' | 'preview');
+	});
+});
+
+document.getElementById('btn-import-docx')!.addEventListener('click', async () => {
+	const result = await window.electronAPI.importFile.docx();
+	if (result.success && result.html) Editor.insertAtExp(result.html);
+	else if (!result.cancelled) setStatus(`Import failed: ${result.error}`, 'error');
+});
+
+document.getElementById('btn-import-pdf')!.addEventListener('click', async () => {
+	const result = await window.electronAPI.importFile.pdf();
+	if (result.success && result.html) Editor.insertAtExp(result.html);
+	else if (!result.cancelled) setStatus(`Import failed: ${result.error}`, 'error');
+});
+
+document.querySelectorAll<HTMLButtonElement>('.mode-tab').forEach((tab) => {
+	tab.addEventListener('click', () => {
+		document.querySelectorAll('.mode-tab').forEach((t) => t.classList.remove('active'));
+		tab.classList.add('active');
+		Editor.setMode(tab.dataset.mode as 'visual' | 'text' | 'preview');
+	});
+});
+
+document.getElementById('btn-import-docx')!.addEventListener('click', async () => {
+	const result = await window.electronAPI.importFile.docx();
+	if (result.success && result.html) Editor.insertAtExp(result.html);
+	else if (!result.cancelled) setStatus(`Import failed: ${result.error}`, 'error');
+});
+
+document.getElementById('btn-import-pdf')!.addEventListener('click', async () => {
+	const result = await window.electronAPI.importFile.pdf();
+	if (result.success && result.html) Editor.insertAtExp(result.html);
+	else if (!result.cancelled) setStatus(`Import failed: ${result.error}`, 'error');
 });
 
 newScanBtn.addEventListener('click', () => {
@@ -154,6 +194,9 @@ scanBtn.addEventListener('click', async () => {
 		);
 
 		await Sidebar.refresh(currentApplicationId ?? undefined);
+		// TODO: wondering if its worthwhile to consolidate this function so that we just have one await here but I
+		// doubt it actually affects performance in any meaningful way.
+		await refreshStats();
 	} finally {
 		scanBtn.disabled = false;
 	}
@@ -192,6 +235,16 @@ async function handleSave(format: 'html' | 'txt'): Promise<void> {
 	else if (!result.cancelled) setStatus(`Save failed: ${result.error}`, 'error');
 }
 
+async function refreshStats(): Promise<void> {
+	const s = await window.electronAPI.applications.stats();
+	const statusText = Object.entries(s.byStatus)
+		.map(([k, v]) => `${k}: <strong>${v}</strong>`)
+		.join(' · ');
+	document.getElementById('stats-bar')!.innerHTML =
+		`Total: <strong>${s.total}</strong> &nbsp;·&nbsp; Avg matches: <strong>${s.avgMatches}</strong>` +
+		(statusText ? ` &nbsp;·&nbsp; ${statusText}` : '');
+}
+
 saveHtmlBtn.addEventListener('click', () => handleSave('html'));
 saveTxtBtn.addEventListener('click', () => handleSave('txt'));
 
@@ -205,4 +258,5 @@ saveEditsBtn.addEventListener('click', async () => {
 });
 
 Sidebar.refresh();
+refreshStats();
 showView('scan');

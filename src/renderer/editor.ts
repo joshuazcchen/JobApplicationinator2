@@ -1,12 +1,43 @@
 export const Editor = (() => {
 	let root: HTMLElement;
+	let textArea: HTMLTextAreaElement;
+	let previewFrame: HTMLIFrameElement;
+	let mode: 'visual' | 'text' | 'preview' = 'visual';
 	let undoStack: string[] = [];
 	let redoStack: string[] = [];
 	const MAX_STACK = 20; // TODO: migrate this to be its own proper config/settings thing
 	let pushTimer: ReturnType<typeof setTimeout> | null = null;
+	const KATEX_HEAD = `
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
+		integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB"
+	crossorigin="anonymous">
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
+		integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs"
+	crossorigin="anonymous"></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"
+		integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz"
+	crossorigin="anonymous"
+	onload="renderMathInElement(document.body, {
+		delimiters: [
+			{ left: '$$', right: '$$', display: true },
+			{ left: '$', right: '$', display: false }
+		]
+	});"></script>`;
 
-	function init(elementId: string): void {
+	function stripDocument(html: string): string {
+		const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+		const inner = bodyMatch ? bodyMatch[1] : html;
+		return inner
+			.replace(/<style[\s\S]*?<\/style>/gi, '')
+			.replace(/<script[\s\S]*?<\/script>/gi, '')
+			.replace(/<\/?(html|head|body)[^>]*>/gi, '')
+			.trim();
+	}
+
+	function init(elementId: string, textAreaId: string, previewId: string): void {
 		root = document.getElementById(elementId) as HTMLElement;
+		textArea = document.getElementById(textAreaId) as HTMLTextAreaElement;
+		previewFrame = document.getElementById(previewId) as HTMLIFrameElement;
 		root.contentEditable = 'true';
 
 		resetWithMarker();
@@ -86,7 +117,8 @@ export const Editor = (() => {
 		root.focus();
 		const marker = root.querySelector('.insertion-marker');
 		const wrapper = document.createElement('div');
-		wrapper.innerHTML = html;
+		// See comment under setHTML
+		wrapper.innerHTML = stripDocument(html);
 		const newMarker =
 			'<span class="insertion-marker" contenteditable="false">insert here</span>';
 
@@ -107,14 +139,57 @@ export const Editor = (() => {
 
 	function getHTML(): string {
 		// strip the marker otherwise it appears on the actual final output
-		return root.innerHTML.replace(/<span class="insertion-marker"[^>]*>.*?<\/span>/g, '');
+		const source = mode === 'text' ? textArea.value : root.innerHTML;
+		return source.replace(/<span class="insertion-marker"[^>]*>.*?<\/span>/g, '');
 	}
 
 	function setHTML(html: string): void {
-		root.innerHTML = html;
+		// Pretty sure the reason why the UI was breaking was because it'd try to render the full base template which
+		// had HTML elements of its own, this should now strip it clean.
+		const clean = stripDocument(html);
+		root.innerHTML = clean;
+		textArea.value = clean;
 		undoStack = [];
 		redoStack = [];
 		pushSnapshot(true);
+	}
+
+	function insertAtExp(html: string): void {
+		const clean = stripDocument(html);
+		if (mode === 'text') {
+			const start = textArea.selectionStart;
+			const end = textArea.selectionEnd;
+			textArea.value = textArea.value.slice(0, start) + clean + textArea.value.slice(end);
+		} else {
+			insertBlurbAtMarker(clean);
+		}
+	}
+
+	function setMode(next: 'visual' | 'text' | 'preview'): void {
+		if (mode === 'visual' && next !== 'visual') syncFromVisual();
+		if (mode === 'text' && next !== 'text') syncFromText();
+
+		mode = next;
+		root.style.display = mode === 'visual' ? 'block' : 'none';
+		textArea.style.display = mode === 'text' ? 'block' : 'none';
+		previewFrame.style.display = mode === 'preview' ? 'block' : 'none';
+
+		if (mode === 'preview') {
+			previewFrame.srcdoc = `<html><head>${KATEX_HEAD}</head><body>${getHTML()}</body></html>`;
+		}
+	}
+
+	function syncFromVisual(): void {
+		textArea.value = getHTML();
+	}
+
+	function syncFromText(): void {
+		root.innerHTML = textArea.value;
+		pushSnapshot();
+	}
+
+	function getMode(): string {
+		return mode;
 	}
 
 	return {
@@ -127,6 +202,9 @@ export const Editor = (() => {
 		getHTML,
 		setHTML,
 		undo,
-		redo
+		redo,
+		insertAtExp,
+		setMode,
+		getMode
 	};
 })();

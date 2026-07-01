@@ -17,6 +17,14 @@ export interface ApplicationFull extends ApplicationSummary {
 	matches: { keyword_id: number; name: string; mention_count: number; blurb_id: number | null }[];
 }
 
+// TODO: add more stats and a potential nice graph using MatPlotLib's TS equivalent, gotta research on that what is
+// though.
+export interface AppStats {
+	total: number;
+	byStatus: Record<string, number>;
+	avgMatches: number;
+}
+
 export function createApplication(
 	db: Database.Database,
 	data: {
@@ -127,4 +135,24 @@ export function updateApplicationStatus(db: Database.Database, id: number, statu
 
 export function updateApplicationNotes(db: Database.Database, id: number, notes: string): void {
 	db.prepare('UPDATE applications SET notes = ? WHERE id = ?').run(notes, id);
+}
+
+export function getStats(db: Database.Database): AppStats {
+	const total = (db.prepare('SELECT COUNT(*) as c FROM applications').get() as { c: number }).c;
+
+	const statusRows = db
+		.prepare('SELECT status, COUNT(*) as c FROM applications GROUP BY status')
+		.all() as { status: string; c: number }[];
+	const byStatus: Record<string, number> = {};
+	statusRows.forEach((r) => (byStatus[r.status] = r.c));
+
+	const avg = db
+		.prepare(
+			`SELECT AVG(cnt) as avg FROM (
+			SELECT application_id, COUNT(*) as cnt FROM application_keyword_matches GROUP BY application_id
+		)`
+		)
+		.get() as { avg: number | null };
+
+	return { total, byStatus, avgMatches: Math.round((avg.avg ?? 0) * 10) / 10 };
 }
