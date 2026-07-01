@@ -42,7 +42,7 @@ export interface ApplicationFullDTO extends ApplicationSummaryDTO {
 	}[];
 }
 
-export type ScanMethod = 'safari' | 'cdp' | 'clipboard';
+export type ScanMethod = "safari" | "cdp" | "clipboard";
 
 export interface MatchDTO {
 	name: string;
@@ -70,7 +70,7 @@ export interface SaveResult {
 
 export interface ElectronAPI {
 	scan: (method: ScanMethod) => Promise<ScanResult>;
-	saveOutput: (content: string, format: 'html' | 'txt') => Promise<SaveResult>;
+	saveOutput: (content: string, format: "html" | "txt") => Promise<SaveResult>;
 	onLog: (cb: (msg: string) => void) => void;
 	clearLogListeners: () => void;
 
@@ -79,12 +79,7 @@ export interface ElectronAPI {
 		create: (name: string, triggers: string[]) => Promise<number>;
 		update: (id: number, name: string, triggers: string[]) => Promise<void>;
 		delete: (id: number) => Promise<void>;
-		addBlurb: (
-			keywordId: number,
-			label: string,
-			contentHtml: string,
-			isDefault: boolean,
-		) => Promise<number>;
+		addBlurb: (keywordId: number, label: string, contentHtml: string, isDefault: boolean) => Promise<number>;
 		updateBlurb: (id: number, label: string, contentHtml: string) => Promise<void>;
 		deleteBlurb: (id: number) => Promise<void>;
 		setDefaultBlurb: (keywordId: number, blurbId: number) => Promise<void>;

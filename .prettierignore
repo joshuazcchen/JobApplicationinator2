@@ -2,3 +2,4 @@ LICENSE.md
 dist/
 release/
 node_modules/
+.github/

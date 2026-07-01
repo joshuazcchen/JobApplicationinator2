@@ -1,16 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="Content-Security-Policy"
-		content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self'">
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self'"
+		/>
 		<title>JobApplicationinator v2</title>
-		<link rel="stylesheet" href="./styles.css">
+		<link rel="stylesheet" href="./styles.css" />
 	</head>
 	<body>
 		<div class="app">
-
 			<aside class="sidebar">
 				<div class="sidebar-header">
 					<span class="app-title">Applicationinator</span>
@@ -29,9 +30,7 @@
 			</aside>
 
 			<main class="main-panel">
-
 				<section class="view view-scan" data-view="scan">
-
 					<div class="scan-section">
 						<div class="scan-controls">
 							<div class="control-group">
@@ -62,8 +61,12 @@
 
 							<div class="editor-toolbar">
 								<button id="btn-bold" class="tb-btn" title="Bold"><b>B</b></button>
-								<button id="btn-italic" class="tb-btn" title="Italic"><i>I</i></button>
-								<button id="btn-underline" class="tb-btn" title="Underline"><u>U</u></button>
+								<button id="btn-italic" class="tb-btn" title="Italic">
+									<i>I</i>
+								</button>
+								<button id="btn-underline" class="tb-btn" title="Underline">
+									<u>U</u>
+								</button>
 								<span class="tb-sep"></span>
 								<select id="font-select" class="tb-select" title="Font">
 									<option value="Georgia">Georgia</option>
@@ -99,15 +102,15 @@
 					</div>
 				</section>
 
-				<section class="view view-keywords" data-view="keywords" style="display:none">
+				<section class="view view-keywords" data-view="keywords" style="display: none">
 					<div class="kw-layout">
 						<div class="kw-sidebar">
 							<h2>Keywords</h2>
 							<div id="kw-list" class="kw-list"></div>
 
 							<div class="kw-add-form">
-								<input id="kw-new-name" placeholder="Keyword name (e.g. Python)">
-								<input id="kw-new-triggers" placeholder="Triggers, comma-separated">
+								<input id="kw-new-name" placeholder="Keyword name (e.g. Python)" />
+								<input id="kw-new-triggers" placeholder="Triggers, comma-separated" />
 								<button id="kw-add-btn" class="btn btn-primary">+ Add Keyword</button>
 							</div>
 						</div>
@@ -118,15 +121,17 @@
 					</div>
 				</section>
 
-				<section class="view view-templates" data-view="templates" style="display:none">
+				<section class="view view-templates" data-view="templates" style="display: none">
 					<div class="tpl-layout">
 						<div class="tpl-sidebar">
 							<h2>Templates</h2>
 							<div id="tpl-list" class="tpl-list"></div>
 
 							<div class="tpl-upload">
-								<label for="tpl-upload-input" class="btn btn-primary tpl-upload-label">Upload Template</label>
-								<input id="tpl-upload-input" type="file" accept=".html,.htm" style="display:none">
+								<label for="tpl-upload-input" class="btn btn-primary tpl-upload-label"
+									>Upload Template</label
+								>
+								<input id="tpl-upload-input" type="file" accept=".html,.htm" style="display: none" />
 							</div>
 						</div>
 
@@ -136,7 +141,6 @@
 						</div>
 					</div>
 				</section>
-
 			</main>
 		</div>
 
