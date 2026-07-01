@@ -1,4 +1,4 @@
-import { ipcMain, BrowserWindow, app } from 'electron'
+import { ipcMain, BrowserWindow } from 'electron'
 
 import { scrapeSafari } from '../platform/safari'
 import { scrapeCDP } from '../platform/cdp'
@@ -7,34 +7,8 @@ import { extractText, rankKeywords } from '../engine/keyword-engine'
 import { assembleLetterFromTemplate } from '../engine/assembler'
 
 import { getDatabase } from '../db/schema';
-import { getAllKeywordsWithDetails } from '../db/keywords';
-import { getDefaultTemplate } from '../db/templates';
+import { getKeywordsDetails } from '../db/keywords';
 import { createApplication, saveCoverLetter, saveKeywordMatches } from '../db/applications';
-
-function assetPath(...parts: string[]): string {
-	if (app.isPackaged) {
-		return path.join(process.resourcesPath, 'assets', ...parts)
-	}
-	return path.join(__dirname, '..', '..', '..', 'assets', ...parts)
-}
-
-let keywords: KeywordEntry[] = []
-let defaultTemplate = '<html><body>{{blurbs}}</body></html>'
-
-function loadAssets(): void {
-	try {
-		const raw = fs.readFileSync(assetPath('default-keywords.json'), 'utf8')
-		keywords = (JSON.parse(raw) as { keywords: KeywordEntry[] }).keywords
-	} catch (e) {
-		console.error('[S!] failed to load default-keywords.json: ', e)
-	}
-
-	try {
-		defaultTemplate = fs.readFileSync(assetPath('default-template.html'), 'utf8')
-	} catch (e) {
-		console.error('[S!] failed to load default-template.html:', e)
-	}
-}
 
 export function registerScraperIPC(win: BrowserWindow): void {
 	//loadAssets() Not sure if this is still necessary but it works seemingly fine without.
