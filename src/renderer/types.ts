@@ -68,6 +68,13 @@ export interface SaveResult {
 	error?: string;
 }
 
+export interface ImportResult {
+	success: boolean;
+	cancelled?: boolean;
+	html?: string;
+	error?: string;
+}
+
 export interface ElectronAPI {
 	scan: (method: ScanMethod) => Promise<ScanResult>;
 	saveOutput: (content: string, format: "html" | "txt") => Promise<SaveResult>;
@@ -99,6 +106,10 @@ export interface ElectronAPI {
 		updateStatus: (id: number, status: string) => Promise<void>;
 		updateNotes: (id: number, notes: string) => Promise<void>;
 		saveCoverLetter: (id: number, html: string) => Promise<void>;
+	};
+	importFile: {
+		docx: () => Promise<ImportResult>;
+		pdf: () => Promise<ImportResult>;
 	};
 }
 
