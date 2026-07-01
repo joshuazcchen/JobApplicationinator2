@@ -123,11 +123,11 @@ scanBtn.addEventListener('click', async () => {
 	scanBtn.disabled = true;
 	setStatus('Scanning…', 'running');
 
-	window.electronAPI.clearLogListeners();
-	window.electronAPI.onLog(appendLog);
+	electronAPI.clearLogListeners();
+	electronAPI.onLog(appendLog);
 
 	try {
-		const result = await window.electronAPI.scan(method);
+		const result = await electronAPI.scan(method);
 
 		if (!result.success) {
 			setStatus(`Error: ${result.error ?? 'Unknown error'}`, 'error');
@@ -152,7 +152,7 @@ scanBtn.addEventListener('click', async () => {
 });
 
 async function openApplication(id: number): Promise<void> {
-	const app = await window.electronAPI.applications.get(id);
+	const app = await electronAPI.applications.get(id);
 	if (!app) return;
 
 	currentApplicationId = app.id;
@@ -179,7 +179,7 @@ async function handleSave(format: 'html' | 'txt'): Promise<void> {
 		setStatus('Nothing to save, scan first.', 'error');
 		return;
 	}
-	const result = await window.electronAPI.saveOutput(html, format);
+	const result = await electronAPI.saveOutput(html, format);
 	if (result.success) setStatus(`Saved to ${result.filePath}`, 'success');
 	else if (!result.cancelled) setStatus(`Save failed: ${result.error}`, 'error');
 }
@@ -192,7 +192,7 @@ saveEditsBtn.addEventListener('click', async () => {
 		setStatus('Run a scan first, nothing to save.', 'error');
 		return;
 	}
-	await window.electronAPI.applications.saveCoverLetter(currentApplicationId, Editor.getHTML());
+	await electronAPI.applications.saveCoverLetter(currentApplicationId, Editor.getHTML());
 	setStatus('Edits saved to database.', 'success');
 });
 
