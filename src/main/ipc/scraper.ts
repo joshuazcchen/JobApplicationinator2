@@ -118,7 +118,7 @@ export function registerScraperIPC(win: BrowserWindow): void {
 				matches: matches.map((m) => ({
 					name: m.keyword.name,
 					count: m.count,
-					hasBlurb: m.defaultBlurb !== null
+					hasBlurb: m.defaultBlurb !== null,
 					blurbHtml: m.defaultBlurb?.content ?? null,
 				})),
 				assembled
