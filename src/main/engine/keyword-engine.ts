@@ -1,7 +1,7 @@
 export interface BlurbEntry {
 	id: number;
 	label: string
-	content_html: string
+	content: string
 	is_default: boolean
 }
 
