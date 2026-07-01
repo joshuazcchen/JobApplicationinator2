@@ -6,6 +6,7 @@ import { registerScraperIPC } from './ipc/scraper';
 import { registerFileIPC } from './ipc/file';
 import { registerDatabaseIPC } from './ipc/database';
 import { registerImporterIPC } from './ipc/importer';
+import { registerLibraryIPC } from './ipc/library';
 import { seedKeywords } from './db/keywords';
 import { seedTemplates } from './db/templates';
 
@@ -69,6 +70,7 @@ app.whenReady().then(() => {
 	if (mainWindow) {
 		registerScraperIPC(mainWindow);
 		registerImporterIPC(mainWindow);
+		registerLibraryIPC(mainWindow);
 	}
 
 	app.on('activate', () => {
