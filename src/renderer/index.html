@@ -287,6 +287,7 @@
 								<div id="tpl-list" class="tpl-list"></div>
 
 								<div class="tpl-upload">
+									<!-- TODO: make this work for PDF/DocX imports too -->
 									<label
 										for="tpl-upload-input"
 										class="btn btn-primary tpl-upload-label"
@@ -298,6 +299,15 @@
 										accept=".html,.htm"
 										style="display: none"
 									/>
+
+									<button id="tpl-examples-btn" class="btn btn-secondary">
+										Examples
+									</button>
+									<div
+										id="tpl-examples-panel"
+										class="tpl-examples-panel"
+										style="display: none"
+									></div>
 								</div>
 							</div>
 

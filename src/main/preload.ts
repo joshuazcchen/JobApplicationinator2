@@ -33,7 +33,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
 		create: (name: string, contentHtml: string) =>
 			ipcRenderer.invoke('tpl:create', name, contentHtml),
 		delete: (id: number) => ipcRenderer.invoke('tpl:delete', id),
-		setDefault: (id: number) => ipcRenderer.invoke('tpl:setDefault', id)
+		setDefault: (id: number) => ipcRenderer.invoke('tpl:setDefault', id),
+		listExamples: () => ipcRenderer.invoke('tpl:listExamples'),
+		importExample: (file: string) => ipcRenderer.invoke('tpl:importExample', file)
 	},
 
 	applications: {

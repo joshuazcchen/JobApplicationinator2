@@ -3,6 +3,15 @@ import { getDatabase } from '../db/schema';
 import * as KW from '../db/keywords';
 import * as TPL from '../db/templates';
 import * as APP from '../db/applications';
+import * as fs from 'fs';
+import * as path from 'path';
+import { app } from 'electron';
+
+function examplesDir(): string {
+	return app.isPackaged
+		? path.join(process.resourcesPath, 'assets', 'examples')
+		: path.join(__dirname, '..', '..', '..', 'assets', 'examples');
+}
 
 export function registerDatabaseIPC(): void {
 	const db = getDatabase();
@@ -35,6 +44,24 @@ export function registerDatabaseIPC(): void {
 	);
 	ipcMain.handle('tpl:delete', (_e, id: number) => TPL.deleteTemplate(db, id));
 	ipcMain.handle('tpl:setDefault', (_e, id: number) => TPL.setDefaultTemplate(db, id));
+	ipcMain.handle('tpl:listExamples', () => {
+		try {
+			return fs
+				.readdirSync(examplesDir())
+				.filter((f) => f.endsWith('.html') || f.endsWith('.tex') || f.endsWith('.docx'))
+				.map((f) => ({
+					name: path.parse(f).name,
+					file: f
+				}));
+		} catch {
+			return [];
+		}
+	});
+
+	ipcMain.handle('tpl:importExamples', (_e, file: string) => {
+		const html = fs.readFileSync(path.join(examplesDir(), file), 'utf8');
+		return TPL.createTemplate(db, path.parse(file).name, html);
+	});
 
 	ipcMain.handle('app:list', () => APP.listApplications(db));
 	ipcMain.handle('app:get', (_e, id: number) => APP.getApplication(db, id));

@@ -706,6 +706,12 @@ input:focus {
 	background: var(--white);
 }
 
+.tpl-examples-panel {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
 .app-footer {
 	flex-shrink: 0;
 	border-top: 1px solid var(--border);

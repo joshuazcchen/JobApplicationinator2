@@ -121,6 +121,8 @@ export interface ElectronAPI {
 		create: (name: string, contentHtml: string) => Promise<number>;
 		delete: (id: number) => Promise<void>;
 		setDefault: (id: number) => Promise<void>;
+		listExamples: () => Promise<{ name: string; file: string }[]>;
+		importExample: (file: string) => Promise<number>;
 	};
 
 	// TODO: not sure why im commenting this here but I need to find a way to standardize spacing between the interfcae
