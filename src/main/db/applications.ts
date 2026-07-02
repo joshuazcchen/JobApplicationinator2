@@ -149,7 +149,7 @@ export function getStats(db: Database.Database): AppStats {
 	const avg = db
 		.prepare(
 			`SELECT AVG(cnt) as avg FROM (
-			SELECT application_id, COUNT(*) as cnt FROM application_keyword_matches GROUP BY application_id
+			SELECT application_id, COUNT(*) as cnt FROM app_keyword_match GROUP BY application_id
 		)`
 		)
 		.get() as { avg: number | null };

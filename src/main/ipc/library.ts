@@ -1,4 +1,4 @@
-import { ipcMain, dialog, BrowserWindow, app as electronApp } from 'electron';
+import { ipcMain, dialog, BrowserWindow } from 'electron';
 import * as fs from 'fs';
 import { getDatabase } from '../db/schema';
 import { createKeyword, addBlurb, getKeywordsDetails } from '../db/keywords';
