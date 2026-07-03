@@ -50,6 +50,7 @@ export function initDatabase(): Database.Database {
 			raw_html TEXT,
 			scan_date DATETIME DEFAULT CURRENT_TIMESTAMP,
 			status TEXT DEFAULT 'draft',
+			pinned INTEGER DEFAULT 0,
 			notes TEXT
 		);
 
@@ -75,4 +76,17 @@ export function initDatabase(): Database.Database {
 
 export function getDatabase(): Database.Database {
 	return db;
+}
+
+export function resetDatabase(): void {
+	db.exec(`
+			DROP TABLE IF EXISTS application_keyword_matches;
+			DROP TABLE IF EXISTS cover_letters;
+			DROP TABLE IF EXISTS applications;
+			DROP TABLE IF EXISTS blurbs;
+			DROP TABLE IF EXISTS keyword_triggers;
+			DROP TABLE IF EXISTS keywords;
+			DROP TABLE IF EXISTS templates;
+			`);
+	initDatabase();
 }

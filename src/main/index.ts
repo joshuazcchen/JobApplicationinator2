@@ -9,15 +9,9 @@ import { registerImporterIPC } from './ipc/importer';
 import { registerLibraryIPC } from './ipc/library';
 import { seedKeywords } from './db/keywords';
 import { seedTemplates } from './db/templates';
+import { assetPath } from './asset-path';
 
 let mainWindow: BrowserWindow | null = null;
-
-function assetPath(...parts: string[]): string {
-	if (app.isPackaged) {
-		return path.join(process.resourcesPath, 'assets', ...parts);
-	}
-	return path.join(__dirname, '..', '..', 'assets', ...parts);
-}
 
 function seedDatabase(): void {
 	const db = getDatabase();

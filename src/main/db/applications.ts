@@ -6,6 +6,7 @@ export interface ApplicationSummary {
 	role_title: string | null;
 	status: string;
 	scan_date: string;
+	pinned: number;
 }
 
 export interface ApplicationFull extends ApplicationSummary {
@@ -90,7 +91,7 @@ export function saveKeywordMatches(
 export function listApplications(db: Database.Database): ApplicationSummary[] {
 	return db
 		.prepare(
-			'SELECT id, company_name, role_title, status, scan_date FROM applications ORDER BY scan_date DESC'
+			'SELECT id, company_name, role_title, status, scan_date, pinned FROM applications ORDER BY pinned DESC, scan_date DESC'
 		)
 		.all() as ApplicationSummary[];
 }
@@ -155,4 +156,25 @@ export function getStats(db: Database.Database): AppStats {
 		.get() as { avg: number | null };
 
 	return { total, byStatus, avgMatches: Math.round((avg.avg ?? 0) * 10) / 10 };
+}
+
+export function deleteApplication(db: Database.Database, id: number): void {
+	db.prepare('DELETE FROM applications WHERE id = ?').run(id);
+}
+
+export function nameApplication(
+	db: Database.Database,
+	id: number,
+	roleTitle: string,
+	companyName: string
+): void {
+	db.prepare('UPDATE applications SET role_title = ?, company_name = ? WHERE id = ?').run(
+		roleTitle,
+		companyName,
+		id
+	);
+}
+
+export function setApplicationPinned(db: Database.Database, id: number, pinned: boolean): void {
+	db.prepare('UPDATE applications SET pinned = ? WHERE id = ?').run(pinned ? 1 : 0, id);
 }

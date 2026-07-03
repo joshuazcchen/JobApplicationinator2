@@ -33,7 +33,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
 		create: (name: string, contentHtml: string) =>
 			ipcRenderer.invoke('tpl:create', name, contentHtml),
 		delete: (id: number) => ipcRenderer.invoke('tpl:delete', id),
-		setDefault: (id: number) => ipcRenderer.invoke('tpl:setDefault', id)
+		setDefault: (id: number) => ipcRenderer.invoke('tpl:setDefault', id),
+		listExamples: () => ipcRenderer.invoke('tpl:listExamples'),
+		importExample: (file: string) => ipcRenderer.invoke('tpl:importExample', file)
 	},
 
 	applications: {
@@ -45,11 +47,19 @@ contextBridge.exposeInMainWorld('electronAPI', {
 			ipcRenderer.invoke('app:updateNotes', id, notes),
 		saveCoverLetter: (id: number, html: string) =>
 			ipcRenderer.invoke('app:saveCoverLetter', id, html),
-		stats: () => ipcRenderer.invoke('app:stats')
+		stats: () => ipcRenderer.invoke('app:stats'),
+		delete: (id: number) => ipcRenderer.invoke('app:delete', id),
+		rename: (id: number, roleTitle: string, companyName: string) =>
+			ipcRenderer.invoke('app:rename', id, roleTitle, companyName),
+		setPinned: (id: number, pinned: boolean) => ipcRenderer.invoke('app:setPinned', id, pinned)
 	},
+
+	openDataFolder: () => ipcRenderer.invoke('app:openDataFolder'),
 
 	importFile: {
 		docx: () => ipcRenderer.invoke('import:docx'),
 		pdf: () => ipcRenderer.invoke('import:pdf')
-	}
+	},
+
+	resetDatabase: () => ipcRenderer.invoke('app:resetDatabase')
 });

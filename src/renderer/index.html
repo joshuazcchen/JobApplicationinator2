@@ -22,6 +22,9 @@
 						<button class="nav-btn active" data-view="scan">Scan / Editor</button>
 						<button class="nav-btn" data-view="keywords">Blurbs</button>
 						<button class="nav-btn" data-view="templates">Templates</button>
+						<!-- TODO: implement these two -->
+						<button class="nav-btn" data-view="stats">Stats</button>
+						<button class="nav-btn" data-view="tracker">Tracker</button>
 					</nav>
 
 					<button id="new-scan-btn" class="btn btn-primary sidebar-new-btn">
@@ -30,13 +33,21 @@
 
 					<div class="sidebar-list-label">Past Applications</div>
 					<div id="sidebar-list" class="sidebar-list"></div>
+
+					<div class="sidebar-danger-zone">
+						<button id="open-data-folder-btn" class="btn-sidebar-util">
+							Open Folder
+						</button>
+						<button id="reset-db-btn" class="btn-sidebar-util btn-sidebar-danger">
+							Reset Database
+						</button>
+					</div>
 				</aside>
 
 				<main class="main-panel">
 					<section class="view view-scan" data-view="scan">
 						<div class="scan-section">
 							<!-- TODO: TEMPORARY STATS BAR HERE, LATER I WILL MOVE TO AN ACTUAL STARTING PAGE-->
-							<div id="stats-bar" class="stats-bar"></div>
 							<div class="scan-controls">
 								<div class="control-group">
 									<label for="method-select">Source</label>
@@ -96,7 +107,7 @@
 										<option value="'Comic Sans'">Comic Sans</option>
 									</select>
 									<!-- TODO: could replace this with an actual proper system more akin to docs or
-			something.-->
+			 something.-->
 									<select id="size-select" class="tb-select" title="Size">
 										<!-- MERGE NOTES: THIS IS GOING TO CONFLICT AGAIN WITH THE CHANGE FROM SIZES TO NUMERICAL FONTS IN MASTER-->
 										<option value="2">Small</option>
@@ -287,6 +298,7 @@
 								<div id="tpl-list" class="tpl-list"></div>
 
 								<div class="tpl-upload">
+									<!-- TODO: make this work for PDF/DocX imports too -->
 									<label
 										for="tpl-upload-input"
 										class="btn btn-primary tpl-upload-label"
@@ -298,6 +310,15 @@
 										accept=".html,.htm"
 										style="display: none"
 									/>
+
+									<button id="tpl-examples-btn" class="btn btn-secondary">
+										Examples
+									</button>
+									<div
+										id="tpl-examples-panel"
+										class="tpl-examples-panel"
+										style="display: none"
+									></div>
 								</div>
 							</div>
 
@@ -308,6 +329,15 @@
 								<iframe id="tpl-preview" class="tpl-preview"></iframe>
 							</div>
 						</div>
+					</section>
+
+					<section class="view view-tracker" data-view="stats" style="display: none">
+						<div id="stats-bar" class="stats-bar"></div>
+						<p class="hint-text">Stats</p>
+					</section>
+
+					<section class="view view-tracker" data-view="tracker" style="display: none">
+						<p class="hint-text">Application Tracker</p>
 					</section>
 				</main>
 			</div>

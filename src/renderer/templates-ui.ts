@@ -21,6 +21,24 @@ export const TemplatesUI = (() => {
 			uploadInput.value = '';
 			await refresh(id);
 		});
+
+		document.getElementById('tpl-examples-btn')!.addEventListener('click', async () => {
+			const examples = await window.electronAPI.templates.listExamples();
+			const panel = document.getElementById('tpl-examples-panel') as HTMLElement;
+			panel.innerHTML = examples
+				.map(
+					(e) =>
+						`<button class="btn btn-secondary tpl-example-item" data-file="${e.file}">${e.name}</button>`
+				)
+				.join('');
+			panel.querySelectorAll<HTMLButtonElement>('.tpl-example-item').forEach((btn) => {
+				btn.addEventListener('click', async () => {
+					const id = await window.electronAPI.templates.importExample(btn.dataset.file!);
+					await refresh(id);
+				});
+			});
+			panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+		});
 	}
 
 	async function refresh(selectAfter?: number): Promise<void> {
@@ -44,13 +62,13 @@ export const TemplatesUI = (() => {
 					? '<span class="tpl-default-badge">Default</span>'
 					: '';
 				return `
-          <div class="tpl-row${active}" data-id="${t.id}">
-            <span class="tpl-row-name">${esc(t.name)} ${defaultBadge}</span>
-            <div class="tpl-row-actions">
-              <button class="btn btn-secondary tpl-set-default-btn" data-id="${t.id}">Set default</button>
-              <button class="btn btn-danger-text tpl-delete-btn" data-id="${t.id}">Delete</button>
-            </div>
-          </div>`;
+				<div class="tpl-row${active}" data-id="${t.id}">
+				<span class="tpl-row-name">${esc(t.name)} ${defaultBadge}</span>
+				<div class="tpl-row-actions">
+				<button class="btn btn-secondary tpl-set-default-btn" data-id="${t.id}">Set default</button>
+				<button class="btn btn-danger-text tpl-delete-btn" data-id="${t.id}">Delete</button>
+				</div>
+				</div>`;
 			})
 			.join('');
 
