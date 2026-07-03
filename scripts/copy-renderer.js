@@ -15,4 +15,13 @@ fs.mkdirSync(dest, { recursive: true });
   }
 });
 
+const loadingSrc = path.join(src, 'loading');
+const loadingDest = path.join(dest, 'loading');
+if (fs.existsSync(loadingSrc)) {
+	fs.mkdirSync(loadingDest, { recursive: true });
+	fs.readdirSync(loadingSrc).forEach(file => {
+		fs.copyFileSync(path.join(loadingSrc, file), path.join(loadingDest, file));
+	});
+}
+
 console.log('Renderer assets copied.');
