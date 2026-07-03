@@ -26,6 +26,7 @@ export interface ApplicationSummaryDTO {
 	role_title: string | null;
 	status: string;
 	scan_date: string;
+	pinned: number;
 }
 
 export interface ApplicationFullDTO extends ApplicationSummaryDTO {
@@ -134,12 +135,19 @@ export interface ElectronAPI {
 		updateNotes: (id: number, notes: string) => Promise<void>;
 		saveCoverLetter: (id: number, html: string) => Promise<void>;
 		stats: () => Promise<AppStats>;
+		delete: (id: number) => Promise<void>;
+		rename: (id: number, roleTitle: string, companyName: string) => Promise<void>;
+		setPinned: (id: number, pinned: boolean) => Promise<void>;
 	};
+
+	openDataFolder: () => Promise<void>;
 
 	importFile: {
 		docx: () => Promise<ImportResult>;
 		pdf: () => Promise<ImportResult>;
 	};
+
+	resetDatabase: () => Promise<{ success: boolean }>;
 }
 
 declare global {

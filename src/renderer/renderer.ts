@@ -108,6 +108,19 @@ document.getElementById('btn-import-pdf')!.addEventListener('click', async () =>
 	else if (!result.cancelled) setStatus(`Import failed: ${result.error}`, 'error');
 });
 
+document.getElementById('reset-db-btn')!.addEventListener('click', async () => {
+	const typed = prompt('This will reset EVERYTHING.\nType "I am sure" to confirm:');
+	if (typed !== 'I am sure') return;
+	await window.electronAPI.resetDatabase();
+	currentApplicationId = null;
+	Editor.clear();
+	logPanel.textContent = '';
+	matchesContainer.innerHTML = '';
+	await Sidebar.refresh();
+	await refreshStats();
+	setStatus('Database reset.', 'success');
+});
+
 newScanBtn.addEventListener('click', () => {
 	currentApplicationId = null;
 	logPanel.textContent = '';
@@ -260,3 +273,7 @@ saveEditsBtn.addEventListener('click', async () => {
 Sidebar.refresh();
 refreshStats();
 showView('scan');
+
+document.getElementById('open-data-folder-btn')!.addEventListener('click', () => {
+	window.electronAPI.openDataFolder();
+});

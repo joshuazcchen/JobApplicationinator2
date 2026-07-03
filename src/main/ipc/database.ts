@@ -5,7 +5,11 @@ import * as TPL from '../db/templates';
 import * as APP from '../db/applications';
 import * as fs from 'fs';
 import * as path from 'path';
-import { app } from 'electron';
+import { app, shell } from 'electron';
+import { resetDatabase } from '../db/schema';
+import { seedKeywords } from '../db/keywords';
+import { seedTemplates } from '../db/templates';
+import { assetPath } from '../asset-path';
 
 function examplesDir(): string {
 	return app.isPackaged
@@ -75,4 +79,27 @@ export function registerDatabaseIPC(): void {
 	ipcMain.handle('app:saveCoverLetter', (_e, id: number, html: string) =>
 		APP.saveCoverLetter(db, id, html)
 	);
+	// TODO:
+	// search.
+	ipcMain.handle('app:delete', (_e, id: number) => APP.deleteApplication(db, id));
+	ipcMain.handle('app:rename', (_e, id: number, roleTitle: string, companyName: string) =>
+		APP.nameApplication(db, id, roleTitle, companyName)
+	);
+	ipcMain.handle('app:setPinned', (_e, id: number, pinned: boolean) =>
+		APP.setApplicationPinned(db, id, pinned)
+	);
+	ipcMain.handle('app:openDataFolder', () => shell.openPath(app.getPath('userData')));
+	ipcMain.handle('app:resetDatabase', () => {
+		resetDatabase();
+		const freshDb = getDatabase();
+		try {
+			const raw = fs.readFileSync(assetPath('default-keywords.json'), 'utf8');
+			seedKeywords(freshDb, JSON.parse(raw));
+			const html = fs.readFileSync(assetPath('default-template.html'), 'utf8');
+			seedTemplates(freshDb, html);
+		} catch (e) {
+			console.error('[reset] reseed failed:', e);
+		}
+		return { success: true };
+	});
 }
