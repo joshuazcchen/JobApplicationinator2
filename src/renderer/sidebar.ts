@@ -1,4 +1,5 @@
 import type { ApplicationSummaryDTO } from './types.js';
+import { Modal } from './modal.js';
 
 export const Sidebar = (() => {
 	let listEl: HTMLElement;
@@ -91,9 +92,17 @@ export const Sidebar = (() => {
 					await refresh(activeId);
 				} else if (action === 'rename') {
 					const app = apps.find((a) => a.id === id);
-					const newTitle = prompt('Role title:', app?.role_title ?? '');
+					const newTitle = await Modal.prompt(
+						'Rename Application',
+						'Role title',
+						app?.role_title ?? ''
+					);
 					if (newTitle === null) return;
-					const newCompany = prompt('Company name:', app?.company_name ?? '');
+					const newCompany = await Modal.prompt(
+						'Rename Application',
+						'Company name',
+						app?.company_name ?? ''
+					);
 					if (newCompany === null) return;
 					await window.electronAPI.applications.rename(id, newTitle, newCompany);
 					await refresh(activeId);

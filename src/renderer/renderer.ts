@@ -3,6 +3,7 @@ import { Sidebar } from './sidebar.js';
 import { KeywordsUI } from './keywords-ui.js';
 import { TemplatesUI } from './templates-ui.js';
 import type { ScanMethod, MatchDTO } from './types.js';
+import { Modal } from './modal.js';
 
 const scanBtn = document.getElementById('scan-btn') as HTMLButtonElement;
 const methodSelect = document.getElementById('method-select') as HTMLSelectElement;
@@ -109,8 +110,12 @@ document.getElementById('btn-import-pdf')!.addEventListener('click', async () =>
 });
 
 document.getElementById('reset-db-btn')!.addEventListener('click', async () => {
-	const typed = prompt('This will reset EVERYTHING.\nType "I am sure" to confirm:');
-	if (typed !== 'I am sure') return;
+	const confirmed = await Modal.confirmMsg(
+		'Reset Database',
+		'This will reset everything.',
+		'RESET'
+	);
+	if (!confirmed) return;
 	await window.electronAPI.resetDatabase();
 	currentApplicationId = null;
 	Editor.clear();
