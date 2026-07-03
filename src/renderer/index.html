@@ -110,10 +110,13 @@
 			 something.-->
 									<select id="size-select" class="tb-select" title="Size">
 										<!-- MERGE NOTES: THIS IS GOING TO CONFLICT AGAIN WITH THE CHANGE FROM SIZES TO NUMERICAL FONTS IN MASTER-->
-										<option value="2">Small</option>
-										<option value="3" selected>Normal</option>
-										<option value="4">Large</option>
-										<option value="6">XLarge</option>
+										<option value="12">12</option>
+										<option value="14">14</option>
+										<option value="16" selected>16</option>
+										<option value="18">18</option>
+										<option value="24">24</option>
+										<option value="32">32</option>
+										<option value="48">48</option>
 									</select>
 									<span class="tb-sep"></span>
 									<button
@@ -137,12 +140,16 @@
 								</div>
 
 								<div id="letter-editor" class="letter-editor"></div>
-								<button id="btn-import-docx" class="tb-btn" title="Import DOCX">
-									Import DocX
-								</button>
-								<button id="btn-import-pdf" class="tb-btn" title="Import PDF">
-									Import PDF
-								</button>
+								<textarea
+									id="letter-textarea"
+									class="letter-textarea"
+									style="display: none"
+								></textarea>
+								<iframe
+									id="letter-preview"
+									class="letter-preview"
+									style="display: none"
+								></iframe>
 
 								<div class="save-row">
 									<button id="save-edits-btn" class="btn btn-primary">
@@ -234,55 +241,7 @@
 											Redo
 										</button>
 									</div>
-
-									<div id="letter-editor" class="letter-editor"></div>
-
-									<div class="save-row">
-										<button id="save-edits-btn" class="btn btn-primary">
-											Save Edits
-										</button>
-										<button id="save-html-btn" class="btn btn-secondary">
-											Export HTML
-										</button>
-										<button id="save-txt-btn" class="btn btn-secondary">
-											Export TXT
-										</button>
-										<button
-											id="save-pdf-btn"
-											class="btn btn-secondary"
-											disabled
-										>
-											Export PDF
-										</button>
-									</div>
 								</div>
-							</div>
-						</div>
-					</section>
-
-					<section class="view view-keywords" data-view="keywords" style="display: none">
-						<div class="kw-layout">
-							<div class="kw-sidebar">
-								<h2>Keywords</h2>
-								<div id="kw-list" class="kw-list"></div>
-
-								<div class="kw-add-form">
-									<input
-										id="kw-new-name"
-										placeholder="Keyword name (e.g. Python)"
-									/>
-									<input
-										id="kw-new-triggers"
-										placeholder="Triggers, comma-separated"
-									/>
-									<button id="kw-add-btn" class="btn btn-primary">
-										+ Add Keyword
-									</button>
-								</div>
-							</div>
-
-							<div id="kw-detail" class="kw-detail">
-								<p class="hint-text">Select a keyword to edit blurbs.</p>
 							</div>
 						</div>
 					</section>
@@ -331,7 +290,7 @@
 						</div>
 					</section>
 
-					<section class="view view-tracker" data-view="stats" style="display: none">
+					<section class="view view-stats" data-view="stats" style="display: none">
 						<div id="stats-bar" class="stats-bar"></div>
 						<p class="hint-text">Stats</p>
 					</section>
@@ -345,6 +304,17 @@
 			<footer class="app-footer">
 				<div id="status-bar" class="status-bar status-idle">Ready</div>
 			</footer>
+		</div>
+
+		<div id="modal-overlay" class="modal-overlay" style="display: none">
+			<div class="modal-box">
+				<div id="modal-title" class="modal-title"></div>
+				<div id="modal-body" class="modal-body"></div>
+				<div class="modal-actions">
+					<button id="modal-cancel" class="btn btn-secondary">Cancel</button>
+					<button id="modal-confirm" class="btn btn-primary">Confirm</button>
+				</div>
+			</div>
 		</div>
 
 		<script type="module" src="./renderer.js"></script>

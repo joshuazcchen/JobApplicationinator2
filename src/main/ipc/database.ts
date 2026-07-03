@@ -62,7 +62,7 @@ export function registerDatabaseIPC(): void {
 		}
 	});
 
-	ipcMain.handle('tpl:importExamples', (_e, file: string) => {
+	ipcMain.handle('tpl:importExample', (_e, file: string) => {
 		const html = fs.readFileSync(path.join(examplesDir(), file), 'utf8');
 		return TPL.createTemplate(db, path.parse(file).name, html);
 	});

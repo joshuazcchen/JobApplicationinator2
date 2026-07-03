@@ -2,6 +2,18 @@ import { ipcMain, dialog, BrowserWindow } from 'electron';
 import * as fs from 'fs';
 import mammoth from 'mammoth';
 
+if (typeof (globalThis as any).DOMMatrix === 'undefined') {
+	(globalThis as any).DOMMatrix = class DOMMatrix {
+		a = 1;
+		b = 0;
+		c = 0;
+		d = 1;
+		e = 0;
+		f = 0;
+		constructor(_init?: unknown) {}
+	};
+}
+
 export function registerImporterIPC(win: BrowserWindow): void {
 	ipcMain.handle('import:docx', async () => {
 		const { filePaths, canceled } = await dialog.showOpenDialog(win, {

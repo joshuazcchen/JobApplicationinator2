@@ -26,6 +26,7 @@
 	--inspect: #fff3a3;
 	--inspect-text: #7a6500;
 	--sidebar-list-label: #6b7280;
+	--half-black: rgba(0, 0, 0, 0.5);
 	--radius: 6px;
 	--mono: 'Comic Sans MS', 'Comic Sans', monospace;
 }
@@ -874,4 +875,43 @@ input:focus {
 }
 .stats-bar strong {
 	color: var(--text);
+}
+
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: var(--half-black);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+}
+.modal-box {
+	background: var(--surface);
+	border-radius: var(--radius);
+	padding: 20px;
+	width: 340px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	box-shadow: 0 8px 30px var(--half-black);
+}
+.modal-title {
+	font-size: 14px;
+	font-weight: 700;
+}
+.modal-body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	font-size: 13px;
+	color: var(--muted);
+}
+.modal-body input {
+	width: 100%;
+}
+.modal-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
 }
