@@ -8,7 +8,9 @@ export const Editor = (() => {
 	const MAX_STACK = 20; // TODO: migrate this to be its own proper config/settings thing
 	let pushTimer: ReturnType<typeof setTimeout> | null = null;
 	const KATEX_HEAD = `
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
+	<meta http-equiv="Content-Security-Policy"
+	content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://cdn.jsdelivr.net; font-src https://cdn.jsdelivr.net; img-src data:;">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
 		integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB"
 	crossorigin="anonymous">
 	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
