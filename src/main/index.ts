@@ -12,6 +12,21 @@ import { seedTemplates } from './db/templates';
 import { assetPath } from './asset-path';
 
 let mainWindow: BrowserWindow | null = null;
+let loadWindow: BrowserWindow | null = null;
+
+function loadScreen(): void {
+	loadWindow = new BrowserWindow({
+		width: 320,
+		height: 220,
+		frame: false,
+		resizable: false,
+		transparent: false,
+		backgroundColor: '#1a1a2e',
+		show: true,
+		webPreferences: { contextIsolation: true, nodeIntegration: false }
+	});
+	loadWindow.loadFile(path.join(__dirname, '..', 'renderer', 'loading', 'loading.html'));
+}
 
 function seedDatabase(): void {
 	const db = getDatabase();
@@ -49,12 +64,21 @@ function createWindow(): void {
 
 	mainWindow.webContents.openDevTools();
 
+	mainWindow.once('ready-to-show', () => {
+		mainWindow!.show();
+		if (loadWindow && !loadWindow.isDestroyed()) {
+			loadWindow.close();
+			loadWindow = null;
+		}
+	});
+
 	mainWindow.on('closed', () => {
 		mainWindow = null;
 	});
 }
 
 app.whenReady().then(() => {
+	loadScreen();
 	initDatabase();
 	seedDatabase();
 	registerFileIPC();
