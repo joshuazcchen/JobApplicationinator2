@@ -11,7 +11,7 @@ export const Editor = (() => {
 	<link rel="stylesheet" href="./vendor/katex/katex.min.css">
 	<script defer src="./vendor/katex/katex.min.js"></script>
 	<script defer src="./vendor/katex/contrib/auto-render.min.js"></script>
-	<script defer src="./vendor/katex-init.js"></script>`;
+	<script defer src="./katex-init.js"></script>`;
 
 	function stripDocument(html: string): string {
 		const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
