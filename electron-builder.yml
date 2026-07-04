@@ -2,27 +2,25 @@ appId: com.yourname.jobapplicationinator
 productName: JobApplicationinator
 
 directories:
-    output: release
+	output: release
 
 files:
-    - dist/**/*
-    - package.json
+	- dist/**/*
+	- package.json
 
 extraResources:
-    - from: assets/
-      to: assets/
+	- from: assets/
+	  to: assets/
 
 mac:
-    target:
-        - target: dmg
-    category: public.app-category.productivity
+	target:
+		- target: dmg
+	category: public.app-category.productivity
 
 win:
-    target:
-        - target: nsis
-    arch:
-        - x64
+	target:
+		- target: nsis
 
 nsis:
-    oneClick: false
-    allowToChangeInstallationDirectory: true
+	oneClick: false
+	allowToChangeInstallationDirectory: true
