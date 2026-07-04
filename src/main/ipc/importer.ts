@@ -2,8 +2,19 @@ import { ipcMain, dialog, BrowserWindow } from 'electron';
 import * as fs from 'fs';
 import mammoth from 'mammoth';
 
-if (typeof (globalThis as any).DOMMatrix === 'undefined') {
-	(globalThis as any).DOMMatrix = class DOMMatrix {
+interface GlobalWithDOMMatrix {
+	DOMMatrix?: new (init?: unknown) => {
+		a: number;
+		b: number;
+		c: number;
+		d: number;
+		e: number;
+		f: number;
+	};
+}
+
+if (typeof (globalThis as GlobalWithDOMMatrix).DOMMatrix === 'undefined') {
+	(globalThis as GlobalWithDOMMatrix).DOMMatrix = class DOMMatrix {
 		a = 1;
 		b = 0;
 		c = 0;

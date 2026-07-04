@@ -8,7 +8,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about Python</p>"
+					"content": "<p>example paragraph about Python</p>"
 				}
 			]
 		},
@@ -20,7 +20,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about JavaScript</p>"
+					"content": "<p>example paragraph about JavaScript</p>"
 				}
 			]
 		},
@@ -32,7 +32,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about TypeScript</p>"
+					"content": "<p>example paragraph about TypeScript</p>"
 				}
 			]
 		},
@@ -44,7 +44,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about Java</p>"
+					"content": "<p>example paragraph about Java</p>"
 				}
 			]
 		},
@@ -56,7 +56,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about C++</p>"
+					"content": "<p>example paragraph about C++</p>"
 				}
 			]
 		},
@@ -104,7 +104,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about React</p>"
+					"content": "<p>example paragraph about React</p>"
 				}
 			]
 		},
@@ -128,7 +128,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about Node.js</p>"
+					"content": "<p>example paragraph about Node.js</p>"
 				}
 			]
 		},
@@ -164,7 +164,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about REST API</p>"
+					"content": "<p>example paragraph about REST API</p>"
 				}
 			]
 		},
@@ -203,7 +203,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about CI/CD</p>"
+					"content": "<p>example paragraph about CI/CD</p>"
 				}
 			]
 		},
@@ -221,7 +221,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about Docker</p>"
+					"content": "<p>example paragraph about Docker</p>"
 				}
 			]
 		},
@@ -239,7 +239,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about AWS</p>"
+					"content": "<p>example paragraph about AWS</p>"
 				}
 			]
 		},
@@ -317,7 +317,7 @@
 				{
 					"label": "Default",
 					"is_default": true,
-					"content_html": "<p>example paragraph about Unit Testing</p>"
+					"content": "<p>example paragraph about Unit Testing</p>"
 				}
 			]
 		},
