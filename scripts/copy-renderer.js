@@ -43,11 +43,10 @@ if (fs.existsSync(loadingSrc)) {
 	});
 }
 
-const vendorSrcDir = path.join(src, 'vendor');
-const vendorDest = path.join(dest, 'vendor');
-if (fs.existsSync(vendorSrcDir)) {
-	fs.mkdirSync(vendorDest, { recursive: true });
-	fs.readdirSync(vendorSrcDir).forEach(file => {
-		fs.copyFileSync(path.join(vendorSrcDir, file), path.join(vendorDest, file));
-	});
-}
+['katex-init.js'].forEach(file => {
+	const s = path.join(src, file);
+	const d = path.join(dest, file);
+	if (fs.existsSync(s)) {
+		fs.copyFileSync(s, d);
+	}
+});
