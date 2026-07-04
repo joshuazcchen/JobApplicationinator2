@@ -1,0 +1,111 @@
+.editor-panel {
+	min-height: 0;
+}
+
+.editor-toolbar {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	flex-wrap: wrap;
+	padding: 6px;
+	background: var(--bg);
+	border-radius: var(--radius);
+}
+
+.letter-editor {
+	flex: 1;
+	min-height: 220px;
+	overflow-y: auto;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 16px 20px;
+	font-family:
+		Comic Sans,
+		serif;
+	font-size: 13px;
+	line-height: 1.7;
+	background: var(--white);
+}
+
+.letter-editor:focus {
+	outline: none;
+	border-color: var(--accent);
+}
+
+.letter-editor p {
+	margin-bottom: 10px;
+}
+
+.insertion-marker {
+	background: var(--inspect);
+	color: var(--inspect-text);
+	padding: 1px 4px;
+	border-radius: 3px;
+	font-size: 11px;
+	user-select: none;
+}
+
+.save-row {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.editor-mode-tabs {
+	display: flex;
+	gap: 2px;
+	margin-right: 8px;
+}
+
+.mode-tab {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	padding: 5px 10px;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.mode-tab:first-child {
+	border-radius: 4px 0 0 4px;
+}
+
+.mode-tab:last-child {
+	border-radius: 0 4px 4px 0;
+}
+
+.mode-tab.active {
+	background: var(--accent);
+	color: var(--white);
+	border-color: var(--accent);
+}
+
+.letter-textarea {
+	flex: 1;
+	min-height: 220px;
+	width: 100%;
+	font-family: var(--mono);
+	font-size: 12px;
+	padding: 16px 20px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	resize: none;
+}
+
+.letter-preview {
+	flex: 1;
+	min-height: 220px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: var(--white);
+}
+
+.stats-bar {
+	display: flex;
+	gap: 16px;
+	font-size: 12px;
+	color: var(--muted);
+}
+
+.stats-bar strong {
+	color: var(--text);
+}

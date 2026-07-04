@@ -1,0 +1,91 @@
+.tpl-layout {
+	display: grid;
+	grid-template-columns: 300px 1fr;
+	gap: 16px;
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.tpl-sidebar {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.tpl-list {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	overflow-y: auto;
+	flex: 1;
+}
+
+.tpl-row {
+	padding: 10px;
+	border: 1px solid var(--border);
+	border-radius: 4px;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.tpl-row:hover {
+	background: var(--bg);
+}
+
+.tpl-row.active {
+	background: var(--white);
+	border-color: var(--accent);
+}
+
+.tpl-row-name {
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.tpl-default-badge {
+	font-size: 10px;
+	background: var(--success);
+	color: var(--white);
+	padding: 1px 6px;
+	border-radius: 8px;
+	margin-left: 6px;
+}
+
+.tpl-row-actions {
+	display: flex;
+	gap: 6px;
+}
+
+.tpl-row-actions .btn {
+	padding: 4px 8px;
+	font-size: 11px;
+}
+
+.tpl-upload-label {
+	display: block;
+	text-align: center;
+	cursor: pointer;
+}
+
+.tpl-preview-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-height: 0;
+}
+
+.tpl-preview {
+	flex: 1;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: var(--white);
+}
+
+.tpl-examples-panel {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}

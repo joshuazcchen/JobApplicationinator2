@@ -8,21 +8,10 @@ export const Editor = (() => {
 	const MAX_STACK = 20; // TODO: migrate this to be its own proper config/settings thing
 	let pushTimer: ReturnType<typeof setTimeout> | null = null;
 	const KATEX_HEAD = `
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
-		integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB"
-	crossorigin="anonymous">
-	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
-		integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs"
-	crossorigin="anonymous"></script>
-	<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"
-		integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz"
-	crossorigin="anonymous"
-	onload="renderMathInElement(document.body, {
-		delimiters: [
-			{ left: '$$', right: '$$', display: true },
-			{ left: '$', right: '$', display: false }
-		]
-	});"></script>`;
+	<link rel="stylesheet" href="./vendor/katex/katex.min.css">
+	<script defer src="./vendor/katex/katex.min.js"></script>
+	<script defer src="./vendor/katex/contrib/auto-render.min.js"></script>
+	<script defer src="./vendor/katex-init.js"></script>`;
 
 	function stripDocument(html: string): string {
 		const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);

@@ -1,0 +1,162 @@
+.kw-layout {
+	display: grid;
+	grid-template-columns: 300px 1fr;
+	gap: 16px;
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.kw-sidebar {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.kw-list {
+	flex: 1;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.kw-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 13px;
+}
+
+.kw-row:hover {
+	background: var(--bg);
+}
+
+.kw-row.active {
+	background: var(--white);
+}
+
+.kw-row-count {
+	font-size: 11px;
+	color: var(--muted);
+}
+
+.kw-add-form {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding-top: 10px;
+	border-top: 1px solid var(--border);
+}
+
+.kw-add-form input {
+	width: 100%;
+}
+
+.kw-detail {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 20px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.kw-detail-header {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.kw-edit-name {
+	font-size: 16px;
+	font-weight: 700;
+	flex: 1;
+	border: none;
+	border-bottom: 2px solid transparent;
+	padding: 4px 0;
+}
+.kw-edit-name:focus {
+	border-bottom-color: var(--accent);
+	outline: none;
+}
+.kw-edit-triggers {
+	width: 100%;
+}
+
+.kw-blurbs-heading {
+	font-size: 13px;
+	font-weight: 700;
+	margin-top: 4px;
+}
+
+.kw-blurb-list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.blurb-card {
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.blurb-card-header {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.blurb-label {
+	flex: 1;
+	font-weight: 600;
+}
+
+.blurb-default-toggle {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 12px;
+	color: var(--muted);
+	white-space: nowrap;
+}
+
+.blurb-content {
+	width: 100%;
+	min-height: 80px;
+	font-family: var(--mono);
+	font-size: 12px;
+	padding: 8px;
+	border: 1px solid var(--border);
+	border-radius: 4px;
+	resize: vertical;
+}
+
+.kw-new-blurb {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	border-top: 1px solid var(--border);
+	padding-top: 16px;
+}
+
+.kw-new-blurb input,
+.kw-new-blurb textarea {
+	width: 100%;
+}
+
+.kw-new-blurb textarea {
+	min-height: 70px;
+	font-family: var(--mono);
+	font-size: 12px;
+	padding: 8px;
+	border: 1px solid var(--border);
+	border-radius: 4px;
+}

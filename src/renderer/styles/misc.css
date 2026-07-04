@@ -1,0 +1,46 @@
+.status-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.no-matches {
+	color: var(--muted);
+	font-size: 12px;
+	padding: 8px 0;
+}
+
+.app-footer {
+	flex-shrink: 0;
+	border-top: 1px solid var(--border);
+}
+
+.status-bar {
+	padding: 6px 16px;
+	font-size: 12px;
+	font-weight: 500;
+	transition:
+		background 0.2s,
+		color 0.2s;
+}
+
+.status-idle {
+	background: var(--bg);
+	color: var(--muted);
+}
+
+.status-running {
+	background: #eee4ff;
+	color: var(--accent-dark);
+}
+
+.status-success {
+	background: #f0fff4;
+	color: var(--success);
+}
+
+.status-error {
+	background: #fff5f5;
+	color: var(--danger);
+}
