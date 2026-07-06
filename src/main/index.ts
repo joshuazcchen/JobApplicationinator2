@@ -82,7 +82,7 @@ app.whenReady().then(() => {
 	loadScreen();
 	initDatabase();
 	seedDatabase();
-	registerFileIPC();
+	registerFileIPC(mainWindow!);
 	registerDatabaseIPC();
 
 	createWindow();

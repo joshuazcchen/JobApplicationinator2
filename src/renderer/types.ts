@@ -85,6 +85,7 @@ export interface ImportResult {
 export interface ElectronAPI {
 	scan: (method: ScanMethod) => Promise<ScanResult>;
 	saveOutput: (content: string, format: 'html' | 'txt') => Promise<SaveResult>;
+	savePdf: (html: string) => Promise<SaveResult>;
 	onLog: (cb: (msg: string) => void) => void;
 	clearLogListeners: () => void;
 
