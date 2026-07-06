@@ -1,8 +1,9 @@
 import { ipcMain, dialog, app } from 'electron';
+import { BrowserWindow } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export function registerFileIPC(): void {
+export function registerFileIPC(win: BrowserWindow): void {
 	ipcMain.handle('save-output', async (_event, content: string, format: 'html' | 'txt') => {
 		const ext = format === 'html' ? 'html' : 'txt';
 		const timestamp = new Date().toISOString().slice(0, 10);
@@ -33,6 +34,32 @@ export function registerFileIPC(): void {
 		} catch (e) {
 			const error = e instanceof Error ? e.message : String(e);
 			return { success: false, error };
+		}
+	});
+
+	ipcMain.handle('save-pdf', async (_event, html: string) => {
+		const timestamp = new Date().toISOString().slice(0, 10);
+		const { filePath, canceled } = await dialog.showSaveDialog(win, {
+			title: 'Export Cover Letter as PDF',
+			defaultPath: path.join(app.getPath('documents'), `cover-letter-${timestamp}.pdf`),
+			filters: [{ name: 'PDF', extensions: ['pdf'] }]
+		});
+		if (canceled || !filePath) return { success: false, cancelled: true };
+
+		const printWin = new BrowserWindow({ show: false, webPreferences: { offscreen: true } });
+		try {
+			await printWin.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(html));
+			const pdfBuffer = await printWin.webContents.printToPDF({
+				printBackground: true,
+				pageSize: 'Letter',
+				margins: { marginType: 'custom', top: 48, bottom: 48, left: 48, right: 48 }
+			});
+			fs.writeFileSync(filePath, pdfBuffer);
+			return { success: true, filePath };
+		} catch (e) {
+			return { success: false, error: e instanceof Error ? e.message : String(e) };
+		} finally {
+			printWin.destroy();
 		}
 	});
 }

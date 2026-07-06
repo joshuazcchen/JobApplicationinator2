@@ -275,6 +275,20 @@ saveEditsBtn.addEventListener('click', async () => {
 	setStatus('Edits saved to database.', 'success');
 });
 
+document.getElementById('save-pdf-btn')!.addEventListener('click', async () => {
+	const html = Editor.getHTML();
+	if (!html.trim()) {
+		setStatus('nothing to export', 'error');
+		return;
+	}
+	const currentFont =
+		(document.getElementById('font-select') as HTMLSelectElement).value || 'Georgia, serif';
+	const full = `<html><head><style>body{font-family:${currentFont};font-size:11pt;line-height:1.6;max-width:680px;margin:48px auto;}</style></head><body>${html}</body></html>`;
+	const result = await window.electronAPI.savePdf(full);
+	if (result.success) setStatus(`Saved → ${result.filePath}`, 'success');
+	else if (!result.cancelled) setStatus(`PDF export failed: ${result.error}`, 'error');
+});
+
 Sidebar.refresh();
 refreshStats();
 showView('scan');
