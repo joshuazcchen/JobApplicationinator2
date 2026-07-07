@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Joshua Chen.
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';

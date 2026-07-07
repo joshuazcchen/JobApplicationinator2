@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Joshua Chen.
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import type { ApplicationSummaryDTO } from './types.js';
 import { Modal } from './modal.js';
 

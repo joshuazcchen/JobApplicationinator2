@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Joshua Chen.
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import { ipcMain } from 'electron';
 import { getDatabase } from '../db/schema';
 import * as KW from '../db/keywords';

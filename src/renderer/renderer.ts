@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Joshua Chen.
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import { Editor } from './editor.js';
 import { Sidebar } from './sidebar.js';
 import { KeywordsUI } from './keywords-ui.js';

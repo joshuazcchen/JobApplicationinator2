@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Joshua Chen.
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import { execSync } from 'child_process';
 
 export function scrapeSafari(): { html: string; title: string; url: string } {

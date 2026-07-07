@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Joshua Chen.
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 export const Editor = (() => {
 	let root: HTMLElement;
 	let textArea: HTMLTextAreaElement;

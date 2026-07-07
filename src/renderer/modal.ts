@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Joshua Chen.
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 export const Modal = (() => {
 	const overlay = document.getElementById('modal-overlay') as HTMLElement;
 	const titleEl = document.getElementById('modal-title') as HTMLElement;

@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Joshua Chen.
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import { ipcMain, dialog, BrowserWindow } from 'electron';
 import * as fs from 'fs';
 import mammoth from 'mammoth';
