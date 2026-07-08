@@ -209,7 +209,7 @@ scanBtn.addEventListener('click', async () => {
 
 		const matchCount = result.matches?.length ?? 0;
 		setStatus(
-			`Done — ${matchCount} keyword${matchCount !== 1 ? 's' : ''} matched` +
+			`Done: ${matchCount} keyword${matchCount !== 1 ? 's' : ''} matched` +
 				(result.title ? ` from "${result.title}"` : ''),
 			'success'
 		);
