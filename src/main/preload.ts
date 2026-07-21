@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 	saveOutput: (content: string, format: 'html' | 'txt') =>
 		ipcRenderer.invoke('save-output', content, format),
 	savePdf: (html: string) => ipcRenderer.invoke('save-pdf', html),
+	saveDocx: (html: string) => ipcRenderer.invoke('save-docx', html),
 	onLog: (callback: (message: string) => void) => {
 		ipcRenderer.on('log', (_event, message: string) => callback(message));
 	},

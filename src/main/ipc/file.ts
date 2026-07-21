@@ -5,6 +5,7 @@ import { ipcMain, dialog, app } from 'electron';
 import { BrowserWindow } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
+import { htmlToDocxBuffer } from '../engine/docx-export';
 
 export function registerFileIPC(win: BrowserWindow): void {
 	ipcMain.handle('save-output', async (_event, content: string, format: 'html' | 'txt') => {
@@ -63,6 +64,24 @@ export function registerFileIPC(win: BrowserWindow): void {
 			return { success: false, error: e instanceof Error ? e.message : String(e) };
 		} finally {
 			printWin.destroy();
+		}
+	});
+
+	ipcMain.handle('save-docx', async (_event, html: string) => {
+		const timestamp = new Date().toISOString().slice(0, 10);
+		const { filePath, canceled } = await dialog.showSaveDialog(win, {
+			title: 'Export Cover Letter as DOCX',
+			defaultPath: path.join(app.getPath('documents'), `cover-letter-${timestamp}.docx`),
+			filters: [{ name: 'Word Document', extensions: ['docx'] }]
+		});
+		if (canceled || !filePath) return { success: false, cancelled: true };
+
+		try {
+			const buffer = await htmlToDocxBuffer(html);
+			fs.writeFileSync(filePath, buffer);
+			return { success: true, filePath };
+		} catch (e) {
+			return { success: false, error: e instanceof Error ? e.message : String(e) };
 		}
 	});
 }
