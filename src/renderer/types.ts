@@ -89,6 +89,7 @@ export interface ElectronAPI {
 	scan: (method: ScanMethod) => Promise<ScanResult>;
 	saveOutput: (content: string, format: 'html' | 'txt') => Promise<SaveResult>;
 	savePdf: (html: string) => Promise<SaveResult>;
+	saveDocx: (html: string) => Promise<SaveResult>;
 	onLog: (cb: (msg: string) => void) => void;
 	clearLogListeners: () => void;
 
@@ -152,6 +153,11 @@ export interface ElectronAPI {
 	};
 
 	resetDatabase: () => Promise<{ success: boolean }>;
+
+	preferences: {
+		get: () => Promise<{ suppressBlurbPrompt?: boolean }>;
+		setSuppressBlurbPrompt: (value: boolean) => Promise<void>;
+	};
 }
 
 declare global {
