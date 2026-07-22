@@ -13,6 +13,7 @@ import { resetDatabase } from '../db/schema';
 import { seedKeywords } from '../db/keywords';
 import { seedTemplates } from '../db/templates';
 import { assetPath } from '../asset-path';
+import { getPreferences, setPreference } from '../preferences';
 
 function examplesDir(): string {
 	return app.isPackaged
@@ -105,4 +106,8 @@ export function registerDatabaseIPC(): void {
 		}
 		return { success: true };
 	});
+	ipcMain.handle('prefs:get', () => getPreferences());
+	ipcMain.handle('prefs:setSuppressBlurbPrompt', (_e, value: boolean) =>
+		setPreference('suppressBlurbPrompt', value)
+	);
 }

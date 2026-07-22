@@ -13,6 +13,44 @@ export const Modal = (() => {
 		bodyEl.innerHTML = '';
 	}
 
+	function confirmDNA(
+		title: string,
+		message: string,
+		onResolve: (suppressChecked: boolean) => void | Promise<void>
+	): Promise<boolean> {
+		return new Promise((resolve) => {
+			titleEl.textContent = title;
+			bodyEl.innerHTML = `
+			<p>${message}</p>
+			<label style="display:flex;align-items:center;gap:6px;font-size:12px;">
+			<input type="checkbox" id="modal-dont-ask"> Don't ask me again
+			</label>`;
+			overlay.style.display = 'flex';
+
+			const checkbox = document.getElementById('modal-dont-ask') as HTMLInputElement;
+
+			const onConfirm = async (): Promise<void> => {
+				cleanup();
+				await onResolve(checkbox.checked);
+				resolve(true);
+			};
+			const onCancel = async (): Promise<void> => {
+				cleanup();
+				await onResolve(checkbox.checked);
+				resolve(false);
+			};
+
+			function cleanup(): void {
+				confirmBtn.removeEventListener('click', onConfirm);
+				cancelBtn.removeEventListener('click', onCancel);
+				close();
+			}
+
+			confirmBtn.addEventListener('click', onConfirm);
+			cancelBtn.addEventListener('click', onCancel);
+		});
+	}
+
 	function prompt(title: string, placeholder = '', initialValue = ''): Promise<string | null> {
 		return new Promise((resolve) => {
 			titleEl.textContent = title;
@@ -95,5 +133,5 @@ export const Modal = (() => {
 		});
 	}
 
-	return { prompt, confirmMsg };
+	return { prompt, confirmMsg, confirmDNA };
 })();

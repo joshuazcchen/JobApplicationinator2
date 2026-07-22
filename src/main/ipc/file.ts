@@ -5,7 +5,7 @@ import { ipcMain, dialog, app } from 'electron';
 import { BrowserWindow } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import { htmlToDocxBuffer } from '../engine/docx-export';
+import { htmlToDocxBuffer } from '../engine/docx';
 
 export function registerFileIPC(win: BrowserWindow): void {
 	ipcMain.handle('save-output', async (_event, content: string, format: 'html' | 'txt') => {

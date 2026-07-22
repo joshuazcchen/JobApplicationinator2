@@ -112,3 +112,12 @@
 .stats-bar strong {
 	color: var(--text);
 }
+
+.unfilled-var {
+	background: var(--white);
+	color: var(--muted);
+	padding: 1px 5px;
+	border-radius: 3px;
+	font-size: 0.9em;
+	cursor: pointer;
+}

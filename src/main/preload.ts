@@ -66,5 +66,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
 		pdf: () => ipcRenderer.invoke('import:pdf')
 	},
 
-	resetDatabase: () => ipcRenderer.invoke('app:resetDatabase')
+	resetDatabase: () => ipcRenderer.invoke('app:resetDatabase'),
+
+	preferences: {
+		get: () => ipcRenderer.invoke('prefs:get'),
+		setSuppressBlurbPrompt: (value: boolean) =>
+			ipcRenderer.invoke('prefs:setSuppressBlurbPrompt', value)
+	}
 });

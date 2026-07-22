@@ -207,6 +207,14 @@ scanBtn.addEventListener('click', async () => {
 		renderMatches(result.matches ?? []);
 		Editor.setHTML(result.assembled ?? '');
 
+		const missingBlurbs = (result.matches ?? []).filter((m) => !m.hasBlurb);
+		if (missingBlurbs.length > 0) {
+			const prefs = await window.electronAPI.preferences.get();
+			if (!prefs.suppressBlurbPrompt) {
+				await showBlurbPrompt(missingBlurbs.map((m) => m.name));
+			}
+		}
+
 		const matchCount = result.matches?.length ?? 0;
 		setStatus(
 			`Done: ${matchCount} keyword${matchCount !== 1 ? 's' : ''} matched` +
@@ -222,6 +230,19 @@ scanBtn.addEventListener('click', async () => {
 		scanBtn.disabled = false;
 	}
 });
+
+async function showBlurbPrompt(names: string[]): Promise<void> {
+	const list =
+		names.slice(0, 6).join(', ') + (names.length > 6 ? `, +${names.length - 6} more` : '');
+	const goWrite = await Modal.confirmDNA(
+		'Missing Blurbs',
+		`${names.length} matched keyword${names.length !== 1 ? 's' : ''} have no blurb yet: ${list}. Create one?`,
+		async (suppress) => {
+			if (suppress) await window.electronAPI.preferences.setSuppressBlurbPrompt(true);
+		}
+	);
+	if (goWrite) showView('keywords');
+}
 
 async function openApplication(id: number): Promise<void> {
 	const app = await window.electronAPI.applications.get(id);

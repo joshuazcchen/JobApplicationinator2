@@ -7,6 +7,7 @@ import { scrapeSafari } from '../platform/safari';
 import { scrapeCDP } from '../platform/cdp';
 import { scrapeClipboard } from '../platform/clipboard';
 import { extractText, rankKeywords } from '../engine/keyword-engine';
+import { extractData } from '../engine/extraction';
 import { assembleLetterFromTemplate } from '../engine/assembler';
 
 import { getDatabase } from '../db/schema';
@@ -67,9 +68,20 @@ export function registerScraperIPC(win: BrowserWindow): void {
 
 			log('[S] Assembling cover letter...');
 			const template = getDefaultTemplate(db);
+
+			const extracted = extractData(text, raw.title);
+			log(
+				`Company: ${extracted.company_name ?? 'unknown'}, ` +
+					`Manager: ${extracted.hiring_manager ?? 'unknown'}`
+			);
+
 			const assembled = assembleLetterFromTemplate(
 				template?.content ?? '<html><body>{{blurbs}}</body></html>',
-				matches
+				matches,
+				{
+					company_name: extracted.company_name ?? undefined,
+					hiring_manager: extracted.hiring_manager ?? undefined
+				}
 			);
 			log(
 				`[S] Done: ${withBlurbs.length} blurbs inserted, ` +
@@ -79,6 +91,8 @@ export function registerScraperIPC(win: BrowserWindow): void {
 			log('[S] Saving application...');
 
 			const applicationId = createApplication(db, {
+				company_name: extracted.company_name,
+				hiring_manager: extracted.hiring_manager,
 				role_title: raw.title || null,
 				job_url: raw.url || null,
 				raw_html: raw.html
