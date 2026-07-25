@@ -25,9 +25,11 @@
 						<button class="nav-btn active" data-view="scan">Scan / Editor</button>
 						<button class="nav-btn" data-view="keywords">Blurbs</button>
 						<button class="nav-btn" data-view="templates">Templates</button>
-						<!-- TODO: implement these two -->
+						<!-- TODO: implement these two, i really dont want to add the stats or trackers so i keep adding
+						other stuff lol-->
 						<button class="nav-btn" data-view="stats">Stats</button>
 						<button class="nav-btn" data-view="tracker">Tracker</button>
+						<button class="nav-btn" data-view="settings">Settings</button>
 					</nav>
 
 					<button id="new-scan-btn" class="btn btn-primary sidebar-new-btn">
@@ -41,7 +43,7 @@
 						<button id="open-data-folder-btn" class="btn-sidebar-util">
 							Open Folder
 						</button>
-						<button id="reset-db-btn" class="btn-sidebar-util btn-sidebar-danger">
+						<button id="reset-btn" class="btn-sidebar-util btn-sidebar-danger">
 							Reset Database
 						</button>
 					</div>
@@ -259,6 +261,36 @@
 
 					<section class="view view-tracker" data-view="tracker" style="display: none">
 						<p class="hint-text">Application Tracker</p>
+					</section>
+
+					<section class="view view-settings" data-view="settings" style="display: none">
+						<div class="panel" style="max-width: 480px">
+							<h2>Preferences</h2>
+							<label
+								style="
+									display: flex;
+									align-items: center;
+									gap: 8px;
+									font-size: 13px;
+								"
+							>
+								<input type="checkbox" id="settings-suppress-blurb-prompt" />
+								Don't prompt missing blurbs
+							</label>
+						</div>
+						<div class="panel" style="max-width: 480px">
+							<h2>Data</h2>
+							<button id="settings-open-data-folder-btn" class="btn btn-secondary">
+								Open Data Folder
+							</button>
+							<button
+								id="settings-reset-btn"
+								class="btn-sidebar-danger"
+								style="margin-top: 8px"
+							>
+								Reset Database
+							</button>
+						</div>
 					</section>
 				</main>
 			</div>

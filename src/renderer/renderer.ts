@@ -30,6 +30,7 @@ function showView(name: string): void {
 
 	if (name === 'keywords') KeywordsUI.refresh();
 	if (name === 'templates') TemplatesUI.refresh();
+	if (name === 'settings') refreshSettingsView();
 }
 
 navButtons.forEach((btn) => {
@@ -110,23 +111,6 @@ document.getElementById('btn-import-pdf')!.addEventListener('click', async () =>
 	const result = await window.electronAPI.importFile.pdf();
 	if (result.success && result.html) Editor.insertAtExp(result.html);
 	else if (!result.cancelled) setStatus(`Import failed: ${result.error}`, 'error');
-});
-
-document.getElementById('reset-db-btn')!.addEventListener('click', async () => {
-	const confirmed = await Modal.confirmMsg(
-		'Reset Database',
-		'This will reset everything.',
-		'RESET'
-	);
-	if (!confirmed) return;
-	await window.electronAPI.resetDatabase();
-	currentApplicationId = null;
-	Editor.clear();
-	logPanel.textContent = '';
-	matchesContainer.innerHTML = '';
-	await Sidebar.refresh();
-	await refreshStats();
-	setStatus('Database reset.', 'success');
 });
 
 newScanBtn.addEventListener('click', () => {
@@ -229,6 +213,38 @@ scanBtn.addEventListener('click', async () => {
 	} finally {
 		scanBtn.disabled = false;
 	}
+});
+
+// TODO: consolidate this into its own file.
+async function refreshSettingsView(): Promise<void> {
+	const prefs = await window.electronAPI.preferences.get();
+	const checkbox = document.getElementById('settings-suppress-blurb-prompt') as HTMLInputElement;
+	checkbox.checked = !!prefs.suppressBlurbPrompt;
+}
+
+document.getElementById('settings-suppress-blurb-prompt')!.addEventListener('change', (e) => {
+	window.electronAPI.preferences.setSuppressBlurbPrompt((e.target as HTMLInputElement).checked);
+});
+
+document.getElementById('settings-open-data-folder-btn')!.addEventListener('click', () => {
+	window.electronAPI.openDataFolder();
+});
+
+document.getElementById('settings-reset-btn')!.addEventListener('click', async () => {
+	const confirmed = await Modal.confirmMsg(
+		'Reset Database',
+		'This will permanently erase EVERYTHING',
+		'RESET'
+	);
+	if (!confirmed) return;
+	await window.electronAPI.resetDatabase();
+	currentApplicationId = null;
+	Editor.clear();
+	logPanel.textContent = '';
+	matchesContainer.innerHTML = '';
+	await Sidebar.refresh();
+	await refreshStats();
+	setStatus('Database reset.', 'success');
 });
 
 async function showBlurbPrompt(names: string[]): Promise<void> {
