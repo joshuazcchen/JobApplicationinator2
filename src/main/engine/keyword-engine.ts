@@ -21,11 +21,34 @@ export interface RankedMatch {
 	defaultBlurb: BlurbEntry | null;
 }
 
+function isolateMainContent(html: string): string {
+	const candidates = [
+		/<main[^>]*>([\s\S]*?)<\/main>/i,
+		/<article[^>]*>([\s\S]*?)<\/article>/i,
+		/<[^>]+\srole=["']main["'][^>]*>([\s\S]*?)<\/[^>]+>/i
+	];
+	for (const pattern of candidates) {
+		const match = html.match(pattern);
+		// necessary to ignore empty matches
+		if (match && match[1].length > 200) return match[1];
+	}
+	return html;
+}
+
 export function extractText(html: string): string {
+	const isolated = isolateMainContent(html);
+	return stripTags(isolated);
+}
+
+function stripTags(html: string): string {
 	return html
 		.replace(/<script[\s\S]*?<\/script>/gi, ' ')
 		.replace(/<style[\s\S]*?<\/style>/gi, ' ')
 		.replace(/<!--[\s\S]*?-->/g, ' ')
+		.replace(/<nav[\s\S]*?<\/nav>/gi, ' ')
+		.replace(/<header[\s\S]*?<\/header>/gi, ' ')
+		.replace(/<footer[\s\S]*?<\/footer>/gi, ' ')
+		.replace(/<aside[\s\S]*?<\/aside>/gi, ' ')
 		.replace(/<[^>]+>/g, ' ')
 		.replace(/&nbsp;/gi, ' ')
 		.replace(/&amp;/gi, '&')
