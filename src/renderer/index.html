@@ -27,7 +27,7 @@
 						<button class="nav-btn" data-view="templates">Templates</button>
 						<!-- TODO: implement these two, i really dont want to add the stats or trackers so i keep adding
 						other stuff lol-->
-						<button class="nav-btn" data-view="stats">Stats</button>
+						<button class="nav-btn" data-view="analytics">Analytics</button>
 						<button class="nav-btn" data-view="tracker">Tracker</button>
 						<button class="nav-btn" data-view="settings">Settings</button>
 					</nav>
@@ -254,9 +254,12 @@
 						</div>
 					</section>
 
-					<section class="view view-stats" data-view="stats" style="display: none">
-						<div id="stats-bar" class="stats-bar"></div>
-						<p class="hint-text">Stats</p>
+					<section
+						class="view view-analytics"
+						data-view="analytics"
+						style="display: none"
+					>
+						<div id="analytics-container" class="analytics-grid"></div>
 					</section>
 
 					<section class="view view-tracker" data-view="tracker" style="display: none">

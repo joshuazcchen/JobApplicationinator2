@@ -7,6 +7,7 @@ import { KeywordsUI } from './keywords-ui.js';
 import { TemplatesUI } from './templates-ui.js';
 import type { ScanMethod, MatchDTO } from './types.js';
 import { Modal } from './modal.js';
+import { AnalyticsUI } from './analytics.js';
 
 const scanBtn = document.getElementById('scan-btn') as HTMLButtonElement;
 const methodSelect = document.getElementById('method-select') as HTMLSelectElement;
@@ -30,6 +31,7 @@ function showView(name: string): void {
 
 	if (name === 'keywords') KeywordsUI.refresh();
 	if (name === 'templates') TemplatesUI.refresh();
+	if (name === 'analytics') AnalyticsUI.refresh();
 	if (name === 'settings') refreshSettingsView();
 }
 
@@ -56,6 +58,7 @@ Editor.init('letter-editor', 'letter-textarea', 'letter-preview');
 Sidebar.init('sidebar-list', openApplication);
 KeywordsUI.init();
 TemplatesUI.init();
+AnalyticsUI.init();
 
 document.getElementById('btn-bold')!.addEventListener('click', () => Editor.exec('bold'));
 document.getElementById('btn-italic')!.addEventListener('click', () => Editor.exec('italic'));

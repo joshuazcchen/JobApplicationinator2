@@ -29,6 +29,16 @@ export interface AppStats {
 	avgMatches: number;
 }
 
+export interface DailyCount {
+	date: string;
+	count: number;
+}
+export interface BlurbUsage {
+	keyword_name: string;
+	blurb_label: string;
+	times_used: number;
+}
+
 export function createApplication(
 	db: Database.Database,
 	data: {
@@ -180,4 +190,30 @@ export function nameApplication(
 
 export function setApplicationPinned(db: Database.Database, id: number, pinned: boolean): void {
 	db.prepare('UPDATE applications SET pinned = ? WHERE id = ?').run(pinned ? 1 : 0, id);
+}
+
+export function getDailyApplicationCounts(db: Database.Database, days = 30): DailyCount[] {
+	return db
+		.prepare(
+			`SELECT date(scan_date) as date, COUNT(*) as count
+		FROM applications
+		WHERE scan_date >= date('now', ?)
+		GROUP BY date(scan_date)
+		ORDER BY date ASC`
+		)
+		.all(`-${days} days`) as DailyCount[];
+}
+
+export function getBlurbUsageStats(db: Database.Database): BlurbUsage[] {
+	return db
+		.prepare(
+			`SELECT k.name as keyword_name, b.label as blurb_label, COUNT(*) as times_used
+		FROM application_keyword_matches akm
+		JOIN blurbs b ON b.id = akm.blurb_id
+		JOIN keywords k ON k.id = b.keyword_id
+		GROUP BY b.id
+		ORDER BY times_used DESC
+		LIMIT 20`
+		)
+		.all() as BlurbUsage[];
 }

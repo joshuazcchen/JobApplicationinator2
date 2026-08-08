@@ -56,7 +56,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
 		delete: (id: number) => ipcRenderer.invoke('app:delete', id),
 		rename: (id: number, roleTitle: string, companyName: string) =>
 			ipcRenderer.invoke('app:rename', id, roleTitle, companyName),
-		setPinned: (id: number, pinned: boolean) => ipcRenderer.invoke('app:setPinned', id, pinned)
+		setPinned: (id: number, pinned: boolean) => ipcRenderer.invoke('app:setPinned', id, pinned),
+		dailyCounts: (days?: number) => ipcRenderer.invoke('app:dailyCounts', days),
+		blurbUsage: () => ipcRenderer.invoke('app:blurbUsage')
 	},
 
 	openDataFolder: () => ipcRenderer.invoke('app:openDataFolder'),

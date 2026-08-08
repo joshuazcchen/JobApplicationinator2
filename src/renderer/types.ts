@@ -85,6 +85,17 @@ export interface ImportResult {
 	error?: string;
 }
 
+export interface DailyCountDTO {
+	date: string;
+	count: number;
+}
+
+export interface BlurbUsageDTO {
+	keyword_name: string;
+	blurb_label: string;
+	times_used: number;
+}
+
 export interface ElectronAPI {
 	scan: (method: ScanMethod) => Promise<ScanResult>;
 	saveOutput: (content: string, format: 'html' | 'txt') => Promise<SaveResult>;
@@ -143,6 +154,8 @@ export interface ElectronAPI {
 		delete: (id: number) => Promise<void>;
 		rename: (id: number, roleTitle: string, companyName: string) => Promise<void>;
 		setPinned: (id: number, pinned: boolean) => Promise<void>;
+		dailyCounts: (days?: number) => Promise<DailyCountDTO[]>;
+		blurbUsage: () => Promise<BlurbUsageDTO[]>;
 	};
 
 	openDataFolder: () => Promise<void>;

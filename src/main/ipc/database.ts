@@ -110,4 +110,8 @@ export function registerDatabaseIPC(): void {
 	ipcMain.handle('prefs:setSuppressBlurbPrompt', (_e, value: boolean) =>
 		setPreference('suppressBlurbPrompt', value)
 	);
+	ipcMain.handle('app:dailyCounts', (_e, days?: number) =>
+		APP.getDailyApplicationCounts(db, days)
+	);
+	ipcMain.handle('app:blurbUsage', () => APP.getBlurbUsageStats(db));
 }
